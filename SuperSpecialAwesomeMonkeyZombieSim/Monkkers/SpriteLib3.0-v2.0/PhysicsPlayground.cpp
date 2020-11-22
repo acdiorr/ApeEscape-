@@ -7,11 +7,7 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
 {
 	//No gravity this is a top down scene
-<<<<<<< HEAD
 	m_gravity = b2Vec2(0.f, -65.f);
-=======
-	m_gravity = b2Vec2(0.f, 0.f);
->>>>>>> main
 	m_physicsWorld->SetGravity(m_gravity);
 
 	m_physicsWorld->SetContactListener(&listener);
@@ -63,17 +59,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-<<<<<<< HEAD
 		std::string fileName = "HelloWorld.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 60);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(0.5f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
-=======
-		//std::string fileName = "HelloWorld.png";
-		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 60);
-		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.5f);
-		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
->>>>>>> main
 	}
 	
 	//Ramlethal entity
@@ -119,7 +108,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetGravityScale(1.f);
 	}
 
-<<<<<<< HEAD
 	//Setup Initial Static Box
 	CreateBoxEntity("boxSprite.jpg", 150, 10, -10.f, -30.f);
 	//Setup Static Ramp BOX
@@ -128,41 +116,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	CreateBoxEntity("boxSprite.jpg", 150, 10, 265.f, -105.f);
 	//Setup Static WALL
 	CreateBoxEntity("boxSprite.jpg", 100, 15, 332.f, -50.f, 90.f);
-=======
-
-	//Setup Lobby
-
-	// Bottom Wall
-	CreateBoxEntity("l.png", 300, 10, -10.f, -30.f);
-	// Right Wall 1 
-	CreateBoxEntity("l.png", 10, 100, 140.f, 15.f);
-	// Top Wall 1 
-	CreateBoxEntity("l.png", 100, 10, 90.f, 60.f);
-	// Right Wall 2
-	CreateBoxEntity("l.png", 10, 100, 45.f, 110.f);
-	// "Door 1" (Remove when doing full map)
-	CreateBoxEntity("l.png", 10, 99, 55.f, 209.f);
-	// Top Wall 2
-	CreateBoxEntity("l.png", 60, 10, 20.f, 262.f);
-	// "Door 2" (Remove when doing full map)
-	CreateBoxEntity("l.png", 80, 10, -50.f, 272.f);
-	// Top Wall 3 
-	CreateBoxEntity("l.png", 60, 10, -120.f, 262.f);
-	// Left Wall 
-	CreateBoxEntity("l.png", 10, 285, -155.f, 115.f);
-
-
-	//Setup Initial Static Box
-	//CreateBoxEntity("boxSprite.jpg", 150, 10, -10.f, -30.f);
-	//Setup Static Ramp BOX
-	//CreateBoxEntity("boxSprite.jpg", 150, 10, 127.5f, -67.f, -30.f);
-	//Another floor
-	//CreateBoxEntity("boxSprite.jpg", 150, 10, 265.f, -105.f);
-	//Setup Static WALL
-	//CreateBoxEntity("boxSprite.jpg", 100, 15, 332.f, -50.f, 90.f);
-	
-	/*
->>>>>>> main
 	//Ball
 	{
 		auto entity = ECS::CreateEntity();
@@ -172,10 +125,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
 
-<<<<<<< HEAD
-=======
-		
->>>>>>> main
 		//Sets up the components
 		std::string fileName = "happyBall.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
@@ -200,10 +149,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 	}
-<<<<<<< HEAD
-=======
-	*/
->>>>>>> main
 
 	//Setup trigger
 	{
@@ -262,24 +207,10 @@ void PhysicsPlayground::KeyboardHold()
 		speed *= 1.8f;
 	}
 
-<<<<<<< HEAD
-=======
-	if (Input::GetKey(Key::W))
-	{
-		vel += b2Vec2(0.f, 1.f);
-	}
->>>>>>> main
 	if (Input::GetKey(Key::A))
 	{
 		vel += b2Vec2(-1.f, 0.f);
 	}
-<<<<<<< HEAD
-=======
-	if (Input::GetKey(Key::S))
-	{
-		vel += b2Vec2(0.f, -1.f);
-	}
->>>>>>> main
 	if (Input::GetKey(Key::D))
 	{
 		vel += b2Vec2(1.f, 0.f);
