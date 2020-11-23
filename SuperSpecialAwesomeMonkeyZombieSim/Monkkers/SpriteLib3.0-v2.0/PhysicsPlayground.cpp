@@ -7,12 +7,8 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
 {
 	//No gravity this is a top down scene
-<<<<<<< Updated upstream
 	m_gravity = b2Vec2(0.f, 0.f);
 	m_physicsWorld->SetGravity(m_gravity);
-=======
->>>>>>> Stashed changes
-
 	m_physicsWorld->SetContactListener(&listener);
 }
 
@@ -265,11 +261,11 @@ void PhysicsPlayground::KeyboardHold()
 
 	if (Input::GetKey(Key::RightArrow))
 	{
-		player.SetRotationAngleDeg(player.GetRotationAngleDeg() + (3));
+		player.SetRotationAngleDeg(player.GetRotationAngleDeg() - (3));
 	}
 	if (Input::GetKey(Key::LeftArrow))
 	{
-		player.SetRotationAngleDeg(player.GetRotationAngleDeg() - (3));
+		player.SetRotationAngleDeg(player.GetRotationAngleDeg() + (3));
 
 	}
 
