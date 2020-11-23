@@ -7,8 +7,11 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
 {
 	//No gravity this is a top down scene
+<<<<<<< Updated upstream
 	m_gravity = b2Vec2(0.f, 0.f);
 	m_physicsWorld->SetGravity(m_gravity);
+=======
+>>>>>>> Stashed changes
 
 	m_physicsWorld->SetContactListener(&listener);
 }
@@ -250,29 +253,27 @@ void PhysicsPlayground::KeyboardHold()
 	{
 		vel += b2Vec2(1.f, 0.f);
 	}
-	// I know this function is only for getKey, but why overcomplicate things?
-	if (canJump.m_canJump)
+
+	if (Input::GetKey(Key::S))
 	{
-		if (Input::GetKeyDown(Key::Space))
-		{
-			vel += b2Vec2(0.f, 80.f);
-			canJump.m_canJump = false;
-		}
+		vel += b2Vec2(0.f, -1.f);
+	}
+	if (Input::GetKey(Key::W))
+	{
+		vel += b2Vec2(0.f, 1.f);
 	}
 
-	//Change physics body size for circle
-	if (Input::GetKey(Key::O))
+	if (Input::GetKey(Key::RightArrow))
 	{
-		player.ScaleBody(1.3 * Timer::deltaTime, 0);
+		player.SetRotationAngleDeg(player.GetRotationAngleDeg() + (3));
 	}
-	else if (Input::GetKey(Key::I))
+	if (Input::GetKey(Key::LeftArrow))
 	{
-		player.ScaleBody(-1.3 * Timer::deltaTime, 0);
+		player.SetRotationAngleDeg(player.GetRotationAngleDeg() - (3));
+
 	}
 
-	b2Vec2 NewLinearVelocity = b2Vec2(vel.x * speed, player.GetVelocity().y + vel.y);
-
-	player.GetBody()->SetLinearVelocity(NewLinearVelocity);
+	player.GetBody()->SetLinearVelocity(b2Vec2(vel.x * speed, vel.y  * speed));
 }
 
 void PhysicsPlayground::KeyboardDown()
