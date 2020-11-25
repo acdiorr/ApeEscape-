@@ -13,20 +13,21 @@ enum class BodyType
 	BOX,
 	CIRCLE,
 	TRIANGLE,
+	RIGHTTRIANGLE,
 
 	NUM_TYPES
 };
 
 enum EntityCategories
 {
-	ENVIRONMENT = 0x0001,
-	GROUND		= 0x0002,
-	OBJECTS		= 0x0003,
-	PLAYER		= 0x0004,
-	FRIENDLY	= 0x0005,
-	ENEMY		= 0x0006,
-	PICKUP		= 0x0007,
-	TRIGGER		= 0x0008
+    ENVIRONMENT     = 0x0001,//2^0 = 1
+    GROUND			= 0x0002,//2^1 = 2
+    OBJECTS			= 0x0004,//2^2 = 4
+    PLAYER			= 0x0008,//2^3 = 8
+    FRIENDLY		= 0x0016,//2^4 = 16
+    ENEMY			= 0x0032,//2^5 = 32
+    PICKUP			= 0x0064,//2^6 = 64
+    TRIGGER			= 0x0128 //2^7 = 128
 };
 
 
@@ -97,8 +98,8 @@ public:
 	void SetBodyType(BodyType type);
 
 
-	//Set position (just sets the variable, doesn't actually set the position)
-	void SetPosition(b2Vec2 bodyPos);
+	//Set position
+	void SetPosition(b2Vec2 bodyPos, bool contactStep = false);
 	//Sets the velocity of the phyiscs body
 	void SetVelocity(vec3 velo);
 	//Sets the gravity scale of the physics body
@@ -111,14 +112,14 @@ public:
 	void SetMass(float mass);
 
 	//Set the scaled width
-	void ScaleBody(float scale, int fixture);
+	void ScaleBody(float scale, int fixture, bool contactStep = false);
 	//Sets the center offset for the body
 	//*if the offset is 0,0, then all corners will be relative to the
 	//center of the actual sprite	void SetCenterOffset(vec2 cent);
 	void SetCenterOffset(vec2 cent);
 
 	//Set the rotation angle
-	void SetRotationAngleDeg(float degrees);
+	void SetRotationAngleDeg(float degrees, bool contactStep=false);
 	//Set whether the body has a fixed rotation
 	void SetFixedRotation(bool fixed);
 
@@ -135,6 +136,16 @@ private:
 	//Body type
 	BodyType m_bodyType = BodyType::BOX;
 
+	//Stagger the movement
+	bool moveLater = false;
+	b2Vec2 moveValue = b2Vec2(0.f, 0.f);
+	//Stagger the rotation
+	bool rotateLater = false;
+	float rotationDeg = 0.f;
+	//Stagger the scale
+	bool scaleLater = false;
+	int scaleFixt = 0;
+	float scaleVal = 0.f;
 
 	//Box2D position
 	b2Vec2 m_position = b2Vec2(0.f, 0.f);

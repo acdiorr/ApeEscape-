@@ -11,7 +11,11 @@
 #include "VerticalScroll.h"
 #include "MainEntities.h"
 #include "DestroyTrigger.h"
+#include "TranslateTrigger.h"
+#include "ShrinkTrigger.h"
+#include "CreationTrigger.h"
 #include "HorizontalScroll.h"
+#include "EndTrigger.h"
 #include "CanJump.h"
 
 
@@ -51,7 +55,8 @@ public:
 	//Side stuff for entity identifier
 	static void SetIsMainCamera(unsigned entity, bool mainCamera);
 	static void SetIsMainPlayer(unsigned entity, bool mainPlayer);
-
+	static void SetIsMainPlatform1(unsigned entity, bool mainPlatform);
+	static void SetIsMainPlatform2(unsigned entity, bool mainPlatform);
 private:
 	static entt::registry* m_reg;
 };

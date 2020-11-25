@@ -63,7 +63,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.5f);
 		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
 	}
-	
+
 	//Ramlethal entity
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
@@ -130,52 +130,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	CreateBoxEntity("l.png", 10, 285, -155.f, 115.f);
 
 
-	//Setup Initial Static Box
-	//CreateBoxEntity("boxSprite.jpg", 150, 10, -10.f, -30.f);
-	//Setup Static Ramp BOX
-	//CreateBoxEntity("boxSprite.jpg", 150, 10, 127.5f, -67.f, -30.f);
-	//Another floor
-	//CreateBoxEntity("boxSprite.jpg", 150, 10, 265.f, -105.f);
-	//Setup Static WALL
-	//CreateBoxEntity("boxSprite.jpg", 100, 15, 332.f, -50.f, 90.f);
-	
-	/*
-	//Ball
-	{
-		auto entity = ECS::CreateEntity();
-		ball = entity;
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
-
-		
-		//Sets up the components
-		std::string fileName = "happyBall.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(45.f, -8.f, 3.f));
-
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-		float shrinkX = 0.f;
-		float shrinkY = 0.f;
-
-		b2Body* tempBody;
-		b2BodyDef tempDef;
-		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(45.f), float32(-8.f));
-
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-		//tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
-		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetWidth() - shrinkY) / 2.f), vec2(0.f, 0.f), false, OBJECTS, GROUND | ENVIRONMENT | PLAYER | TRIGGER, 0.3f);
-
-		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-	}
-	*/
-
 	//Setup trigger
 	{
 		//Creates entity
@@ -186,7 +140,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<Trigger*>(entity);
-		
+
 		//Sets up components
 		std::string fileName = "boxSprite.jpg";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40);
@@ -217,7 +171,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 void PhysicsPlayground::Update()
 {
-	
+
 }
 
 
@@ -269,7 +223,7 @@ void PhysicsPlayground::KeyboardHold()
 
 	}
 
-	player.GetBody()->SetLinearVelocity(b2Vec2(vel.x * speed, vel.y  * speed));
+	player.GetBody()->SetLinearVelocity(b2Vec2(vel.x * speed, vel.y * speed));
 }
 
 void PhysicsPlayground::KeyboardDown()
@@ -285,6 +239,6 @@ void PhysicsPlayground::KeyboardDown()
 
 void PhysicsPlayground::KeyboardUp()
 {
-	
+
 
 }
