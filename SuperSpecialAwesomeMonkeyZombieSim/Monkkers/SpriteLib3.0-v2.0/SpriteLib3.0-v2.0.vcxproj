@@ -141,6 +141,7 @@
     <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="BackEnd.h" />
     <ClInclude Include="BloomEffect.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraSystem.h" />
     <ClInclude Include="CanJump.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="VertexManager.h" />
     <ClInclude Include="VerticalScroll.h" />
     <ClInclude Include="VignetteEffect.h" />
+    <ClInclude Include="Weapon.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Xinput.h" />
   </ItemGroup>
@@ -204,6 +206,7 @@
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="BackEnd.cpp" />
     <ClCompile Include="BloomEffect.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraSystem.cpp" />
     <ClCompile Include="CanJump.cpp" />
@@ -256,6 +259,7 @@
     <ClCompile Include="VertexManager.cpp" />
     <ClCompile Include="VerticalScroll.cpp" />
     <ClCompile Include="VignetteEffect.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="XInput.cpp" />
   </ItemGroup>

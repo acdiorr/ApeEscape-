@@ -186,6 +186,12 @@
     <ClInclude Include="CanJump.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="ShrinkTrigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -363,6 +369,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CanJump.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShrinkTrigger.cpp">
