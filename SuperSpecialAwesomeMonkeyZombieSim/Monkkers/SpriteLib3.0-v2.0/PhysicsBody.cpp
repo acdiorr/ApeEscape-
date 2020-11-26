@@ -1,4 +1,7 @@
 #include "PhysicsBody.h"
+#include "ECS.h"
+#undef min
+#undef max
 
 bool PhysicsBody::m_drawBodies = false;
 std::vector<int> PhysicsBody::m_bodiesToDelete;
@@ -150,7 +153,7 @@ void PhysicsBody::Update(Transform * trans)
 	}
 	if (scaleLater)
 	{
-		ScaleBody(scaleVal, scaleFixt);
+ 		ScaleBody(scaleVal, scaleFixt);
 		scaleLater = false;
 	}
 
@@ -365,6 +368,15 @@ void PhysicsBody::ScaleBody(float scale, int fixture, bool contactStep)
 			m_width = rX - lX;
 			m_height = tY - bY;
 			m_body->SetAwake(true);
+		}
+		
+		int ent = (int)m_body->GetUserData();
+
+		auto tempSpr = ECS::m_reg->try_get<Sprite>(ent);
+		if (tempSpr != nullptr)
+		{
+			tempSpr->SetWidth(m_width);
+			tempSpr->SetHeight(m_height);
 		}
 	}
 	else

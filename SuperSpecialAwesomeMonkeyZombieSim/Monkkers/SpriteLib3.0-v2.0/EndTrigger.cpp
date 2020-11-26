@@ -35,5 +35,6 @@ void EndTrigger::OnUpdate()
 			timer = 0;
 			exit(0);
 		}
+		
 	}
 }

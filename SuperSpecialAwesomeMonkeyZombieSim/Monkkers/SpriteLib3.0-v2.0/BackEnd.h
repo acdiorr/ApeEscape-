@@ -40,6 +40,7 @@ public:
 	//*Sets all SDL attriutes
 	static void InitSDL();
 
+
 	//Polls SDL events
 	static void PollEvents(entt::registry* mainReg, bool* closeWindow, 
 							bool * mouseMotion, bool * mouseClick, 

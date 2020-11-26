@@ -80,6 +80,11 @@ void Scene::Update()
 	tempSpr.SetTransparency((0.5 * sin(Timer::time * 3.f)) + 0.5f);
 }
 
+void Scene::GUI()
+{
+
+}
+
 void Scene::AdjustScrollOffset()
 {
 	float maxSizeX = ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetOrthoSize().y;
@@ -178,7 +183,7 @@ void Scene::CreateBoxEntity(std::string fileName, int spriteX, int spriteY, int 
 	else
 	{
 		std::vector<b2Vec2> points = { b2Vec2(-tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(-tempSpr.GetWidth() / 2.f, tempSpr.GetHeight() / 2.f) };
-		tempPhsBody = PhysicsBody(entity, BodyType::RIGHTTRIANGLE, tempBody, points, vec2(0.f, 0.f), false, OBJECTS, PLAYER | ENEMY | GROUND | OBJECTS, 0.5f, 3.f); //right triangle
+		tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, OBJECTS, PLAYER | ENEMY | GROUND | OBJECTS, 0.5f, 3.f); //right triangle
 	}
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
@@ -241,7 +246,7 @@ void Scene::CreateSpriteEntity(int type, int body, bool triggerable, int* name, 
 	if (body == 3)
 	{
 		std::vector<b2Vec2> points = { b2Vec2(-tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(-tempSpr.GetWidth() / 2.f, tempSpr.GetHeight() / 2.f) };
-		tempPhsBody = PhysicsBody(entity, BodyType::RIGHTTRIANGLE, tempBody, points, vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, 0.5f, 3.f); //right triangle
+		tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, 0.5f, 3.f); //right triangle
 	}
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotDeg);

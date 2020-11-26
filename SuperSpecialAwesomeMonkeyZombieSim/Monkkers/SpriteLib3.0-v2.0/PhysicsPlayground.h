@@ -12,12 +12,30 @@ public:
 
 	void Update() override;
 
+	void GUI() override;
+
+	void GUIWindowUI();
+	void GUIWindowOne();
+	void GUIWindowTwo();
+
+
 	//Input overrides
 	void KeyboardHold() override;
 	void KeyboardDown() override;
 	void KeyboardUp() override;
 
 protected:
+	bool m_firstWindow = false;
+	bool m_secondWindow = false;
+
+	bool m_lerpEnabled = false;
+	float m_lerpval;
+	float m_tVal = 0.f;
+	float m_val1 = 0.f;
+	float m_val2 = 1.f;
+
+	std::string m_fileInput;
+
 	PhysicsPlaygroundListener listener;
 	unsigned endTriggerEntity;
 
