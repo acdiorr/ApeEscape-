@@ -70,12 +70,25 @@ public:
 	void InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, 
 		Sprite* sprite, AnimationController* controller, Transform* transform, bool hasPhys = false, PhysicsBody* body = nullptr);
 
+
 	void Update();
 	void MovementUpdate();
 	void AnimationUpdate();
 
+	//Damages the player based on the damage you want him to take
+	void takeDamage(int damage);
+
+	//Updates the Vignette depending on the health number
+	void updateVignette(int health);
+
+
+
+
 private:
 	void SetActiveAnimation(int anim);
+
+	int MaxHealth = 5;
+	int Health = 5;
 
 	//Basically, any animation OTHER than moving will not have a cancel, and we'll be checking whether or not that animation is done
 	bool m_moving = false;
