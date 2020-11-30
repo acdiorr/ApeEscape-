@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AdjustBarrierHealth.h" />
     <ClInclude Include="AnimationController.h" />
     <ClInclude Include="AnimationSpritePlayground.h" />
     <ClInclude Include="AnimationSystem.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Xinput.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AdjustBarrierHealth.cpp" />
     <ClCompile Include="AnimationController.cpp" />
     <ClCompile Include="AnimationSpritePlayground.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />

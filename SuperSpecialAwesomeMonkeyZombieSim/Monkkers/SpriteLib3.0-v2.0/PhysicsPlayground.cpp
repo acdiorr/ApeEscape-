@@ -103,7 +103,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
 		//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
 		std::vector<b2Vec2> points = { b2Vec2(-tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(0, tempSpr.GetHeight() / 2.f) };
-		tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | GROUND | TRIGGER, 0.5f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -117,7 +117,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	// Bottom Wall
 	CreateBoxEntity("l.png", 300, 10, -10.f, -30.f);
 	// Right Wall 1 
-	CreateBoxEntity("l.png", 10, 100, 140.f, 15.f);
+	//Removed for first barrier
+	//CreateBoxEntity("l.png", 10, 100, 140.f, 15.f);
 	// Top Wall 1 
 	CreateBoxEntity("l.png", 100, 10, 90.f, 60.f);
 	// Right Wall 2
@@ -132,9 +133,24 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	CreateBoxEntity("l.png", 60, 10, -120.f, 262.f);
 	// Left Wall 
 	CreateBoxEntity("l.png", 10, 285, -155.f, 115.f);
+	//Start of First Barrier
+	//CreateBoxEntity("BarrierImage.png", 10, 40, 140.f, 15.f);
+	//Right wall top side of barrier
+	CreateBoxEntity("l.png", 10, 30, 140.f, 50.f);
+	//Right Wall Left Side of Barrier
+	CreateBoxEntity("l.png", 10, 30, 140.f, -20.f);
+	//Right/Top horizontal wall to create zombie hallway
+	CreateBoxEntity("l.png", 100, 10, 190.f, 40.f);
+	//Right/Bottom Horizontal wall to create zombie hallway
+	CreateBoxEntity("l.png", 100, 10, 190.f, -10.f);
+	//End of barrier hallway
+	CreateBoxEntity("1.png", 10, 60, 235.f, 15.f);
 
+	//end trigger for barriers
+	endTriggerEntity = CreateEndTrigger(false, "barrierimage.png", 10, 10, 30.f, -20.f, 80.f, 460.f, 317.f);
 	//Health Vignette
 
+	// #1 Lobby Barrier
 	EffectManager::CreateEffect(Vignette, BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
 	VignetteEffect* vigH = (VignetteEffect*)EffectManager::GetEffect(EffectManager::GetVignetteHandle());
 
@@ -146,6 +162,74 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
+		destroyBarrier = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "BarrierImage.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 40);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 2.f));
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(140.f), float32(15.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT | PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup inside trigger for moving barrier #1 Away
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		endTrigEntity = entity;
+
+		//Add components
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+		ECS::AttachComponent<Sprite>(entity);
+
+		//Sets up components
+		std::string fileName = "BarrierImage.png";
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new EndTrigger();
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(destroyBarrier);
+		EndTrigger* temp = (EndTrigger*)ECS::GetComponent<Trigger*>(entity);
+		//where to move entity
+		temp->movement = b2Vec2(450.f, 30.f);
+
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(147.f), float32(15.7f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(5.f - shrinkX), float(40.f - shrinkY), vec2(0.f, 0.f), true, TRIGGER, ENEMY | OBJECTS);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+
+	//Setup outside trigger for moving barrier #1 Back
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		returnBarEntity = entity;
 
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
@@ -154,12 +238,14 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Trigger*>(entity);
 
 		//Sets up components
-		std::string fileName = "boxSprite.jpg";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40);
+		std::string fileName = "BarrierImage.png";
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
-		ECS::GetComponent<Trigger*>(entity) = new DestroyTrigger();
+		ECS::GetComponent<Trigger*>(entity) = new AdjustBarrierHealthTrigger();
 		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
-		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(ball);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(destroyBarrier);
+		EndTrigger* temp = (EndTrigger*)ECS::GetComponent<Trigger*>(entity);
+		//where to move entity
+		temp->movement = b2Vec2(140.f, 15.f);
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -169,11 +255,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(300.f), float32(-80.f));
+		tempDef.position.Set(float32(132.f), float32(15.7f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(5.f - shrinkX), float(40.f - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
 
@@ -183,6 +269,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 void PhysicsPlayground::Update()
 {
+	((EndTrigger*)(ECS::GetComponent<Trigger*>(endTrigEntity)))->OnUpdate();
+	((AdjustBarrierHealthTrigger*)(ECS::GetComponent<Trigger*>(returnBarEntity)))->OnUpdate();
 
 	if (m_lerpEnabled)
 	{
