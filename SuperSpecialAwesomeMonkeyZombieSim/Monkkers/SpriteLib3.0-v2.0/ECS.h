@@ -11,12 +11,14 @@
 #include "VerticalScroll.h"
 #include "MainEntities.h"
 #include "DestroyTrigger.h"
+#include "BulletTrigger.h"
 #include "TranslateTrigger.h"
 #include "ShrinkTrigger.h"
 #include "CreationTrigger.h"
 #include "HorizontalScroll.h"
 #include "EndTrigger.h"
 #include "CanJump.h"
+#include "Weapon.h"
 
 
 class ECS abstract

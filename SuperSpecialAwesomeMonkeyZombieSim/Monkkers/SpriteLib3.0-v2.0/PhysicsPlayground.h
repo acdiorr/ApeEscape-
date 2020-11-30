@@ -19,7 +19,7 @@ public:
 
 protected:
 	PhysicsPlaygroundListener listener;
-	unsigned endTriggerEntity;
+	//unsigned endTriggerEntity;
 
 	int player = 0;
 	int wall = 1;

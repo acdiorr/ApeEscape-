@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Utilities.h"
+#include "Box2D/Box2D.h"
 
 class Weapon
 {
@@ -32,11 +32,11 @@ private:
 
 
 public:
-	Weapon(std::string name); // Weapon constructor, name is used to select the right gun
-	// May consider making a custom constuctor to let you guys make cool guns
+	//Use this to set the player's current gun. createWeapon is a bit of an antiquated name.
+	void createWeapon(std::string name);
 	float reload(float time, bool reload); //Place in update so it runs every frame. When 
-	void fire();
+	void fire(b2World PhysicsWorld);
 	void addAmmo(int pickup);
-
+	std::string getName();
 };
 

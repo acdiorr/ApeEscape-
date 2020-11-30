@@ -130,6 +130,8 @@ public:
 	static void SetDraw(bool drawBodies);
 
 	static std::vector<int> m_bodiesToDelete;
+
+	EntityCategories getEntityCategoryType();
 private:
 	//The actual box2D body
 	b2Body* m_body = nullptr;
@@ -163,4 +165,7 @@ private:
 
 	//Do you draw the bodies?
 	static bool m_drawBodies;
+
+	//The MF Entity's type used for collisions.
+	EntityCategories ECategory;
 };

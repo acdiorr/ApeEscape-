@@ -37,6 +37,7 @@ PhysicsBody::PhysicsBody(int entity, b2Body * body, float radius, vec2 centerOff
 	m_height = radius * 2.f;
 
 	m_centerOffset = centerOffset;
+	this->ECategory = category;
 }
 
 PhysicsBody::PhysicsBody(int entity, b2Body* body, float width, float height, vec2 centerOffset, bool sensor, EntityCategories category, int collidesWith, float friction, float density)
@@ -417,5 +418,10 @@ void PhysicsBody::SetCollisionBit(EntityCategories collision, int fixture)
 void PhysicsBody::SetDraw(bool drawBodies)
 {
 	m_drawBodies = drawBodies;
+}
+
+EntityCategories PhysicsBody::getEntityCategoryType()
+{
+	return this->ECategory;
 }
 
