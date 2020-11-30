@@ -36,6 +36,7 @@ public:
 	void createWeapon(std::string name);
 	float reload(float time, bool reload); //Place in update so it runs every frame. When 
 	void fire(b2World PhysicsWorld);
+	//void Ball(b2World PhysicsWorld);
 	void addAmmo(int pickup);
 	std::string getName();
 };

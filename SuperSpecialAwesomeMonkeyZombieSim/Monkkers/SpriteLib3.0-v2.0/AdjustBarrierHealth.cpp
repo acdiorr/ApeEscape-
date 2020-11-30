@@ -26,7 +26,7 @@ void AdjustBarrierHealthTrigger::OnExit()
 
 void AdjustBarrierHealthTrigger::OnUpdate()
 {
-	std::cout << "Adjust Timer is " << timer << std::endl;
+	//std::cout << "Adjust Timer is " << timer << std::endl;
 	if (timer > 0)
 	{
 		timer -= Timer::deltaTime;
