@@ -80,13 +80,15 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<CanJump>(entity);
 		ECS::AttachComponent<Player>(entity);
+		ECS::AttachComponent<Weapon>(entity);
 
 		//Sets up the components
 		std::string fileName = "ramFunny.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
-
+		ECS::GetComponent<Weapon>(entity).createWeapon("M1911");
+		 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
@@ -567,6 +569,7 @@ void PhysicsPlayground::KeyboardHold()
 	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
 	float speed = 15.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
+	float rotationalSpeed = 3.f;
 
 	if (Input::GetKey(Key::Shift))
 	{
@@ -611,22 +614,13 @@ void PhysicsPlayground::KeyboardHold()
 		vel += b2Vec2(1.f, 0.f);
 	}
 
-	if (Input::GetKey(Key::S))
-	{
-		vel += b2Vec2(0.f, -1.f);
-	}
-	if (Input::GetKey(Key::W))
-	{
-		vel += b2Vec2(0.f, 1.f);
-	}
-
 	if (Input::GetKey(Key::RightArrow))
 	{
-		player.SetRotationAngleDeg(player.GetRotationAngleDeg() - (3));
+		player.SetRotationAngleDeg(player.GetRotationAngleDeg() - rotationalSpeed);
 	}
 	if (Input::GetKey(Key::LeftArrow))
 	{
-		player.SetRotationAngleDeg(player.GetRotationAngleDeg() + (3));
+		player.SetRotationAngleDeg(player.GetRotationAngleDeg() + rotationalSpeed);
 
 	}
 
@@ -636,12 +630,16 @@ void PhysicsPlayground::KeyboardHold()
 void PhysicsPlayground::KeyboardDown()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	auto& playerWeapon = ECS::GetComponent<Weapon>(MainEntities::MainPlayer());
 
 	if (Input::GetKeyDown(Key::T))
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
 
+	if (Input::GetKeyDown(Key::RightShift)) {
+		playerWeapon.fire(PhysicsPlayground::GetPhysicsWorld());
+	}
 }
 
 void PhysicsPlayground::KeyboardUp()
