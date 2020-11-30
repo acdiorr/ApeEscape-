@@ -23,6 +23,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Sets up aspect ratio for the camera
 	float aspectRatio = windowWidth / windowHeight;
 
+
+
+
 	//Setup MainCamera Entity
 	{
 		/*Scene::CreateCamera(m_sceneReg, vec4(-75.f, 75.f, -75.f, 75.f), -100.f, 100.f, windowWidth, windowHeight, true, true);*/
@@ -76,6 +79,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<CanJump>(entity);
+		ECS::AttachComponent<Player>(entity);
 
 		//Sets up the components
 		std::string fileName = "ramFunny.png";
@@ -129,6 +133,14 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	// Left Wall 
 	CreateBoxEntity("l.png", 10, 285, -155.f, 115.f);
 
+	//Health Vignette
+
+	EffectManager::CreateEffect(Vignette, BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
+	VignetteEffect* vigH = (VignetteEffect*)EffectManager::GetEffect(EffectManager::GetVignetteHandle());
+
+	vigH->SetInnerRadius(0.0f);
+	vigH->SetOuterRadius(0.5f);
+	vigH->SetOpacity(0.0f);
 
 	//Setup trigger
 	{
@@ -171,6 +183,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 void PhysicsPlayground::Update()
 {
+
 	if (m_lerpEnabled)
 	{
 		m_tVal += Timer::deltaTime;
@@ -412,9 +425,13 @@ void PhysicsPlayground::GUIWindowTwo()
 }
 
 
+
+
+
 void PhysicsPlayground::KeyboardHold()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	auto& playerPlayer = ECS::GetComponent<Player>(MainEntities::MainPlayer());
 	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
 	float speed = 15.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
@@ -422,6 +439,27 @@ void PhysicsPlayground::KeyboardHold()
 	if (Input::GetKey(Key::Shift))
 	{
 		speed *= 1.8f;
+	}
+
+	if (Input::GetKey(Key::One))
+	{
+		playerPlayer.updateVignette(1);
+	}
+	if (Input::GetKey(Key::Two))
+	{
+		playerPlayer.updateVignette(2);
+	}
+	if (Input::GetKey(Key::Three))
+	{
+		playerPlayer.updateVignette(3);
+	}
+	if (Input::GetKey(Key::Four))
+	{
+		playerPlayer.updateVignette(4);
+	}
+	if (Input::GetKey(Key::Five))
+	{
+		playerPlayer.updateVignette(5);
 	}
 
 	if (Input::GetKey(Key::W))

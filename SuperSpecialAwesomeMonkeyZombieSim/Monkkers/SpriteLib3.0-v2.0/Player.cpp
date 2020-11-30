@@ -89,6 +89,44 @@ void Player::Update()
 	AnimationUpdate();
 }
 
+void Player::updateVignette(int health) {
+	VignetteEffect* vigH = (VignetteEffect*)EffectManager::GetEffect(EffectManager::GetVignetteHandle());
+	switch (health) {
+	case 5:
+		vigH->SetInnerRadius(0.0f);
+		vigH->SetOuterRadius(0.5f);
+		vigH->SetOpacity(0.0f);
+		break;
+	case 4:
+		vigH->SetInnerRadius(0.0f);
+		vigH->SetOuterRadius(0.5f);
+		vigH->SetOpacity(0.25f);
+		break;
+	case 3:
+		vigH->SetInnerRadius(0.0f);
+		vigH->SetOuterRadius(0.5f);
+		vigH->SetOpacity(0.50f);
+		break;
+	case 2:
+		vigH->SetInnerRadius(0.0f);
+		vigH->SetOuterRadius(0.5f);
+		vigH->SetOpacity(0.75f);
+		break;
+	case 1:
+		vigH->SetInnerRadius(0.0f);
+		vigH->SetOuterRadius(0.5f);
+		vigH->SetOpacity(1.0f);
+		break;
+	}
+}
+
+void Player::takeDamage(int damage) {
+	if (this->Health > 0) {
+		this->Health -= damage;
+		Player::updateVignette(this->Health);
+	}
+}
+
 void Player::MovementUpdate()
 {
 	m_moving = false;
