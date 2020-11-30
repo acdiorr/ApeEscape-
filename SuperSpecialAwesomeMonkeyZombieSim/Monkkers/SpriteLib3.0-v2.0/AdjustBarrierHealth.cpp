@@ -1,35 +1,32 @@
-#include "EndTrigger.h"
 #include "ECS.h"
+#include "Utilities.h"
+#include "AdjustBarrierHealth.h"
 
-void EndTrigger::OnTrigger()
+void AdjustBarrierHealthTrigger::OnTrigger()
 {
 	Trigger::OnTrigger();
-
 }
 
-void EndTrigger::OnEnter()
+void AdjustBarrierHealthTrigger::OnEnter()
 {
 	Trigger::OnEnter();
 
 	if (!triggered)
 	{
 		timer = 10;
-		//while (timer != 0) {
-			//OnUpdate();
-		//}
 	}
 
 	triggered = false;
 }
 
-void EndTrigger::OnExit()
+void AdjustBarrierHealthTrigger::OnExit()
 {
 	Trigger::OnExit();
 }
 
-void EndTrigger::OnUpdate()
+void AdjustBarrierHealthTrigger::OnUpdate()
 {
-	std::cout << "Timer is " << timer << std::endl;
+	std::cout << "Adjust Timer is " << timer << std::endl;
 	if (timer > 0)
 	{
 		timer -= Timer::deltaTime;
@@ -56,3 +53,4 @@ void EndTrigger::OnUpdate()
 		}
 	}
 }
+

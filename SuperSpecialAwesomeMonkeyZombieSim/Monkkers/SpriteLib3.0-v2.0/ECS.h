@@ -17,6 +17,7 @@
 #include "HorizontalScroll.h"
 #include "EndTrigger.h"
 #include "CanJump.h"
+#include "AdjustBarrierHealth.h"
 
 
 class ECS abstract

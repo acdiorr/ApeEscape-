@@ -20,6 +20,8 @@ public:
 protected:
 	PhysicsPlaygroundListener listener;
 	unsigned endTriggerEntity;
+	unsigned endTrigEntity;
+	unsigned returnBarEntity;
 
 	int player = 0;
 	int wall = 1;
@@ -30,4 +32,5 @@ protected:
 	int wall3 = 6;
 	int noTouch = 7;
 	int image = 8;
+	int destroyBarrier = 0;
 };
