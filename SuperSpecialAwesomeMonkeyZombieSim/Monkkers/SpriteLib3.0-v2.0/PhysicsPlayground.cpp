@@ -146,11 +146,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//End of barrier hallway
 	CreateBoxEntity("1.png", 10, 60, 235.f, 15.f);
 
-	//end trigger for barriers
-	endTriggerEntity = CreateEndTrigger(false, "barrierimage.png", 10, 10, 30.f, -20.f, 80.f, 460.f, 317.f);
-	//Health Vignette
 
-	// #1 Lobby Barrier
+	//Health Vignette
 	EffectManager::CreateEffect(Vignette, BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
 	VignetteEffect* vigH = (VignetteEffect*)EffectManager::GetEffect(EffectManager::GetVignetteHandle());
 
@@ -158,6 +155,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	vigH->SetOuterRadius(0.5f);
 	vigH->SetOpacity(0.0f);
 
+
+	//end trigger for barriers
+	endTriggerEntity = CreateEndTrigger(false, "barrierimage.png", 10, 10, 30.f, -20.f, 80.f, 460.f, 317.f);
+	// #1 Lobby Barrier
 	//Setup trigger
 	{
 		//Creates entity
