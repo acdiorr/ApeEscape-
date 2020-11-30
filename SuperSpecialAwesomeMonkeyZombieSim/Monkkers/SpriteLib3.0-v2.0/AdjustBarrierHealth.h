@@ -9,7 +9,7 @@ class AdjustBarrierHealthTrigger : public Trigger
 public:
 	void OnTrigger() override;
 
-	void OnEnter() override;
+	void OnEnter(int entity) override;
 	void OnExit() override;
 	void OnUpdate();
 	

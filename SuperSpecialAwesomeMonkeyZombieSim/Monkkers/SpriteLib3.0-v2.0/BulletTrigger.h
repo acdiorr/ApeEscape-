@@ -1,16 +1,14 @@
 #pragma once
-
 #include "Trigger.h"
-
-class DestroyTrigger : public Trigger
+class BulletTrigger :
+    public Trigger
 {
-public:
 	void OnTrigger() override;
 
 	void OnEnter(int entity) override;
 	void OnExit() override;
 protected:
-
-	bool triggered = false;
+	bool bulletTypeChecked = false;
+	float penetration = 0;
+	float damage = 0;
 };
-

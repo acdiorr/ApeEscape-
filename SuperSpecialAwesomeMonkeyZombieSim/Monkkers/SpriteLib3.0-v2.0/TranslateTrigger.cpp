@@ -3,12 +3,12 @@
 
 void TranslateTrigger::OnTrigger()
 {
-	Trigger::OnTrigger();
+	//Trigger::OnTrigger();
 }
 
-void TranslateTrigger::OnEnter()
+void TranslateTrigger::OnEnter(int entity)
 {
-	Trigger::OnEnter();
+	//Trigger::OnEnter();
 
 	if (!triggered)
 	{
@@ -25,5 +25,5 @@ void TranslateTrigger::OnEnter()
 
 void TranslateTrigger::OnExit()
 {
-	Trigger::OnExit();
+	//Trigger::OnExit();
 }

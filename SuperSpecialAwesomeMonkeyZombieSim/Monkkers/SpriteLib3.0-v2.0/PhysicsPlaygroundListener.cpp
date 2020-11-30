@@ -21,11 +21,11 @@ void PhysicsPlaygroundListener::BeginContact(b2Contact* contact)
 	{
 		if (sensorA)
 		{
-			TriggerEnter(fixtureA);
+			TriggerEnter(fixtureA, fixtureB);
 		}
 		else if (sensorB)
 		{
-			TriggerEnter(fixtureB);
+			TriggerEnter(fixtureB, fixtureA);
 		}
 	}
 
@@ -68,11 +68,12 @@ void PhysicsPlaygroundListener::EndContact(b2Contact* contact)
 	}
 }
 
-void PhysicsPlaygroundListener::TriggerEnter(b2Fixture* sensor)
+void PhysicsPlaygroundListener::TriggerEnter(b2Fixture* sensor, b2Fixture* touchedSensor)
 {
 	int entity = (int)sensor->GetBody()->GetUserData();
+	int touchedEntity = (int)touchedSensor->GetBody()->GetUserData();
 
-	ECS::GetComponent<Trigger*>(entity)->OnEnter();
+	ECS::GetComponent<Trigger*>(entity)->OnEnter(touchedEntity);
 }
 
 void PhysicsPlaygroundListener::TriggerExit(b2Fixture* sensor)

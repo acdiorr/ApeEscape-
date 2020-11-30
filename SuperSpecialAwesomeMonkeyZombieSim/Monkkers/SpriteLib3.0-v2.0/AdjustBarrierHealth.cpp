@@ -7,9 +7,9 @@ void AdjustBarrierHealthTrigger::OnTrigger()
 	Trigger::OnTrigger();
 }
 
-void AdjustBarrierHealthTrigger::OnEnter()
+void AdjustBarrierHealthTrigger::OnEnter(int entity)
 {
-	Trigger::OnEnter();
+	Trigger::OnEnter(0);
 
 	if (!triggered)
 	{

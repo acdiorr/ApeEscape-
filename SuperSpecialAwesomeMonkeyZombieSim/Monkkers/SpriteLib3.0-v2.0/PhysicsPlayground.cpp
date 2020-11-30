@@ -80,13 +80,15 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<CanJump>(entity);
 		ECS::AttachComponent<Player>(entity);
+		ECS::AttachComponent<Weapon>(entity);
 
 		//Sets up the components
 		std::string fileName = "ramFunny.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
-
+		ECS::GetComponent<Weapon>(entity).createWeapon("M1911");
+		 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
@@ -267,6 +269,49 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
+/*
+void Bullet(float BulletVelocity) {
+	//Setup bullet
+	{
+		auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+
+		//Sets up components
+		std::string fileName = "BulletStreak.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1, 5);
+		b2Vec2 BarrelPosition = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition()
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(BarrelPosition.x, BarrelPosition.y, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new DestroyTrigger();
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(Zombie);
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(300.f), float32(-80.f));
+		tempDef.bullet = true;
+		float angle = player.GetFixedRotation();
+		tempDef.linearVelocity = b2Vec2(float32(BulletVelocity * sin(angle)), float32(BulletVelocity * cos(angle)));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, ENVIRONMENT | ENEMY | OBJECTS);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+}
+*/
 
 void PhysicsPlayground::Update()
 {
@@ -524,6 +569,7 @@ void PhysicsPlayground::KeyboardHold()
 	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
 	float speed = 15.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
+	float rotationalSpeed = 3.f;
 
 	if (Input::GetKey(Key::Shift))
 	{
@@ -568,22 +614,13 @@ void PhysicsPlayground::KeyboardHold()
 		vel += b2Vec2(1.f, 0.f);
 	}
 
-	if (Input::GetKey(Key::S))
-	{
-		vel += b2Vec2(0.f, -1.f);
-	}
-	if (Input::GetKey(Key::W))
-	{
-		vel += b2Vec2(0.f, 1.f);
-	}
-
 	if (Input::GetKey(Key::RightArrow))
 	{
-		player.SetRotationAngleDeg(player.GetRotationAngleDeg() - (3));
+		player.SetRotationAngleDeg(player.GetRotationAngleDeg() - rotationalSpeed);
 	}
 	if (Input::GetKey(Key::LeftArrow))
 	{
-		player.SetRotationAngleDeg(player.GetRotationAngleDeg() + (3));
+		player.SetRotationAngleDeg(player.GetRotationAngleDeg() + rotationalSpeed);
 
 	}
 
@@ -593,12 +630,16 @@ void PhysicsPlayground::KeyboardHold()
 void PhysicsPlayground::KeyboardDown()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	auto& playerWeapon = ECS::GetComponent<Weapon>(MainEntities::MainPlayer());
 
 	if (Input::GetKeyDown(Key::T))
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
 
+	if (Input::GetKeyDown(Key::RightShift)) {
+		playerWeapon.fire(PhysicsPlayground::GetPhysicsWorld());
+	}
 }
 
 void PhysicsPlayground::KeyboardUp()
