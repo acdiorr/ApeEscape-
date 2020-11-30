@@ -112,7 +112,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(1.f);
 	}
-
+	// Setup Map (Breaking it off into sections, naming each wall accordingly)
 
 	//Setup Lobby
 
@@ -126,11 +126,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	// Right Wall 2
 	CreateBoxEntity("l.png", 10, 100, 45.f, 110.f);
 	// "Door 1" (Remove when doing full map)
-	CreateBoxEntity("l.png", 10, 99, 55.f, 209.f);
+	//CreateBoxEntity("l.png", 10, 99, 55.f, 209.f);
 	// Top Wall 2
 	CreateBoxEntity("l.png", 60, 10, 20.f, 262.f);
 	// "Door 2" (Remove when doing full map)
-	CreateBoxEntity("l.png", 80, 10, -50.f, 272.f);
+	//CreateBoxEntity("l.png", 80, 10, -50.f, 272.f);
 	// Top Wall 3 
 	CreateBoxEntity("l.png", 60, 10, -120.f, 262.f);
 	// Left Wall 
@@ -147,6 +147,32 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	CreateBoxEntity("l.png", 100, 10, 190.f, -10.f);
 	//End of barrier hallway
 	CreateBoxEntity("1.png", 10, 60, 235.f, 15.f);
+
+	// Setup Theatre (+ hallway)
+
+	// Left Wall (for hallway)
+	CreateBoxEntity("l.png", 10, 200, -95.f, 357.f);
+	// Right Wall (for hallway)
+	CreateBoxEntity("l.png", 10, 200, -15.f, 357.f);
+	// Bottom Wall 1 (Left of hallway)
+	CreateBoxEntity("l.png", 200, 10, -190.f, 452.f);
+	// Bottom Wall 2 (Right of hallway)
+	CreateBoxEntity("l.png", 200, 10, 80.f, 452.f);
+	// Left Wall 1 
+	CreateBoxEntity("l.png", 10, 120, -290.f, 507.f);
+	// Right Wall 1 
+	CreateBoxEntity("l.png", 10, 120, 175.f, 507.f);
+	// Bottom Wall 3 (Left side above Left Wall 1)
+	CreateBoxEntity("l.png", 50, 10, -320.f, 562.f);
+	// Bottom Wall 4 (Right side above Right Wall 1)
+	CreateBoxEntity("l.png", 50, 10, 205.f, 562.f);
+	// Left Wall 2 (Left side above Bottom Wall 3)
+	CreateBoxEntity("l.png", 10, 320, -340.f, 727.f);
+	// Right Wall 2(Right side above Bottom Wall 4)
+	CreateBoxEntity("l.png", 10, 460, 225.f, 652.f);
+	// Top Wall
+	CreateBoxEntity("l.png", 566, 10, -53.f, 882.f);
+	
 
 
 	//Health Vignette
@@ -573,7 +599,7 @@ void PhysicsPlayground::KeyboardHold()
 
 	if (Input::GetKey(Key::Shift))
 	{
-		speed *= 1.8f;
+		speed *= 3.8f;
 	}
 
 	if (Input::GetKey(Key::One))
