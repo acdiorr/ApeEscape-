@@ -3,12 +3,12 @@
 
 void CreationTrigger::OnTrigger()
 {
-	Trigger::OnTrigger();
+	//Trigger::OnTrigger();
 }
 
-void CreationTrigger::OnEnter()
+void CreationTrigger::OnEnter(int entity)
 {
-	Trigger::OnEnter();
+	//Trigger::OnEnter();
 
 	if (!triggered)
 	{
@@ -22,6 +22,6 @@ void CreationTrigger::OnEnter()
 
 void CreationTrigger::OnExit()
 {
-	Trigger::OnExit();
+	//Trigger::OnExit();
 
 }

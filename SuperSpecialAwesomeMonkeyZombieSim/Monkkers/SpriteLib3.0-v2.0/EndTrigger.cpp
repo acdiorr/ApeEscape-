@@ -3,13 +3,13 @@
 
 void EndTrigger::OnTrigger()
 {
-	Trigger::OnTrigger();
+	//Trigger::OnTrigger();
 
 }
 
-void EndTrigger::OnEnter()
+void EndTrigger::OnEnter(int entity)
 {
-	Trigger::OnEnter();
+	//Trigger::OnEnter();
 
 	if (!triggered)
 	{
@@ -24,7 +24,7 @@ void EndTrigger::OnEnter()
 
 void EndTrigger::OnExit()
 {
-	Trigger::OnExit();
+	//Trigger::OnExit();
 }
 
 void EndTrigger::OnUpdate()

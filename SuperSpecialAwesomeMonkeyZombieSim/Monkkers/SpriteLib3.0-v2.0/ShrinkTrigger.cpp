@@ -3,12 +3,12 @@
 
 void ShrinkTrigger::OnTrigger()
 {
-	Trigger::OnTrigger();
+	//Trigger::OnTrigger();
 }
 
-void ShrinkTrigger::OnEnter()
+void ShrinkTrigger::OnEnter(int entity)
 {
-	Trigger::OnEnter();
+	//Trigger::OnEnter();
 
 	if (!triggered)
 	{
@@ -23,6 +23,6 @@ void ShrinkTrigger::OnEnter()
 
 void ShrinkTrigger::OnExit()
 {
-	Trigger::OnExit();
+	//Trigger::OnExit();
 	
 }
