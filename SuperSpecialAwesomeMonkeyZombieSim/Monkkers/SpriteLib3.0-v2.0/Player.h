@@ -81,6 +81,9 @@ public:
 	//Updates the Vignette depending on the health number
 	void updateVignette(int health);
 
+	//Adds a specified number of points to the score count
+	void addPoints(int amount);
+
 
 
 
@@ -89,6 +92,7 @@ private:
 
 	int MaxHealth = 5;
 	int Health = 5;
+	int Score = 0;
 
 	//Basically, any animation OTHER than moving will not have a cancel, and we'll be checking whether or not that animation is done
 	bool m_moving = false;

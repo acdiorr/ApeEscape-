@@ -127,6 +127,11 @@ void Player::takeDamage(int damage) {
 	}
 }
 
+void Player::addPoints(int amount) {
+	this->Score += amount;
+
+}
+
 void Player::MovementUpdate()
 {
 	m_moving = false;
