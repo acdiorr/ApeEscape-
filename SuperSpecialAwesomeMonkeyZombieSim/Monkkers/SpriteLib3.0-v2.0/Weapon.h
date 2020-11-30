@@ -35,7 +35,7 @@ public:
 	//Use this to set the player's current gun. createWeapon is a bit of an antiquated name.
 	void createWeapon(std::string name);
 	float reload(float time, bool reload); //Place in update so it runs every frame. When 
-	void fire(b2World PhysicsWorld);
+	//void fire(b2World PhysicsWorld);
 	//void Ball(b2World PhysicsWorld);
 	void addAmmo(int pickup);
 	std::string getName();
