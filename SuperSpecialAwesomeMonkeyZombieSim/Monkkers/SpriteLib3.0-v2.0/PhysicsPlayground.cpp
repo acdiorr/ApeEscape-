@@ -126,11 +126,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	// Right Wall 2
 	CreateBoxEntity("l.png", 10, 100, 45.f, 110.f);
 	// "Door 1" (Remove when doing full map)
-	//CreateBoxEntity("l.png", 10, 99, 55.f, 209.f);
+	CreateBoxEntity("l.png", 10, 99, 45.f, 209.f);
 	// Top Wall 2
 	CreateBoxEntity("l.png", 60, 10, 20.f, 262.f);
-	// "Door 2" (Remove when doing full map)
-	//CreateBoxEntity("l.png", 80, 10, -50.f, 272.f);
 	// Top Wall 3 
 	CreateBoxEntity("l.png", 60, 10, -120.f, 262.f);
 	// Left Wall 
@@ -169,7 +167,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	// Left Wall 2 (Left side above Bottom Wall 3)
 	CreateBoxEntity("l.png", 10, 320, -340.f, 727.f);
 	// Right Wall 2(Right side above Bottom Wall 4)
-	CreateBoxEntity("l.png", 10, 460, 225.f, 652.f);
+	CreateBoxEntity("l.png", 10, 330, 225.f, 722.f);
 	// Top Wall
 	CreateBoxEntity("l.png", 566, 10, -53.f, 882.f);
 	
