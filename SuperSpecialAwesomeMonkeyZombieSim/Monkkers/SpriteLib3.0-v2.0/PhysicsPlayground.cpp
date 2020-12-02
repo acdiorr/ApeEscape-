@@ -54,11 +54,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
 
 		//Creates entity
-		auto entity = ECS::CreateEntity();
+		//auto entity = ECS::CreateEntity();
 
 		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+		//ECS::AttachComponent<Sprite>(entity);
+		//ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
 		//std::string fileName = "HelloWorld.png";
@@ -591,7 +591,7 @@ void PhysicsPlayground::KeyboardDown()
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
 
-	if (Input::GetKeyDown(Key::RightShift)) {
+	if (Input::GetKeyDown(Key::RightContol)){
 		float BulletVelocity = 500.f;
 		//Creates entity
 		auto entity = ECS::CreateEntity();
@@ -621,7 +621,7 @@ void PhysicsPlayground::KeyboardDown()
 		tempDef.position.Set(BarrelPosition.x, BarrelPosition.y);
 		tempDef.bullet = true;
 		float angle = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetRotationAngleDeg();
-		tempDef.linearVelocity = b2Vec2(float32(BulletVelocity * sin(angle)), float32(BulletVelocity * cos(angle)));
+		tempDef.linearVelocity = b2Vec2(float32(BulletVelocity * sin(-angle * 0.01745329f)), float32(BulletVelocity * cos(-angle * 0.01745329f)));
 		std::cout << angle << std::endl;
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 

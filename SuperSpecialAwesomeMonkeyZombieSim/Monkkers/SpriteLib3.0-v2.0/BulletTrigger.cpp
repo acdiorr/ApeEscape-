@@ -25,11 +25,17 @@ void BulletTrigger::OnEnter(int entity)
 		this->penetration -= 1.f;
 		//ECS::GetComponent<Zombie>(entity).DamageZombie(this->damage); // Send him to Brazil
 		if (penetration < 0) {
-			PhysicsBody::m_bodiesToDelete.push_back(m_triggerEntity);
+			if (!beingDeleted) {
+				beingDeleted = true;
+				PhysicsBody::m_bodiesToDelete.push_back(m_triggerEntity);
+			}
 		}
 	}
 	else { // This occurs when the bullet collides with the enviroment or an object.
-		PhysicsBody::m_bodiesToDelete.push_back(m_triggerEntity);
+		if (!beingDeleted) {
+			beingDeleted = true;
+			PhysicsBody::m_bodiesToDelete.push_back(m_triggerEntity);
+		}
 	}
 }
 
