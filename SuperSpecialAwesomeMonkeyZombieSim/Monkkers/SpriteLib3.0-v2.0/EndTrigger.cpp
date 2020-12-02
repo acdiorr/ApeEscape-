@@ -29,7 +29,7 @@ void EndTrigger::OnExit()
 
 void EndTrigger::OnUpdate()
 {
-	std::cout << "Timer is " << timer << std::endl;
+	//std::cout << "Timer is " << timer << std::endl;
 	if (timer > 0)
 	{
 		timer -= Timer::deltaTime;

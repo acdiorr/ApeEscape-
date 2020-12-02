@@ -11,4 +11,5 @@ protected:
 	bool bulletTypeChecked = false;
 	float penetration = 0;
 	float damage = 0;
+	bool beingDeleted = false;
 };
