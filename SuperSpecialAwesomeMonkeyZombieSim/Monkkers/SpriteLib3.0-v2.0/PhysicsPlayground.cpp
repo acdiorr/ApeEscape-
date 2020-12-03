@@ -294,6 +294,59 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
+/*
+void Bullet(float BulletVelocity) {
+	//Setup bullet
+	{
+		auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		ECS::SetIsMainPlayer(entity, true);
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<CanJump>(entity);
+		ECS::AttachComponent<Player>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+		ECS::AttachComponent<Weapon>(entity);
+
+		//Sets up the components
+		std::string fileName = "spritesheets/CharacterSprite.png";
+		std::string animations = "characterAnimations.json";
+
+		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 20, 20, &ECS::GetComponent<Sprite>(entity), &ECS::GetComponent<AnimationController>(entity),
+			&ECS::GetComponent<Transform>(entity), true, &ECS::GetComponent<PhysicsBody>(entity));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
+		ECS::GetComponent<Weapon>(entity).createWeapon("M1911");
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(0.f), float32(30.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		//tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+		//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+		std::vector<b2Vec2> points = { b2Vec2(-tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(0, tempSpr.GetHeight() / 2.f) };
+		tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | GROUND | TRIGGER, 0.5f, 3.f);
+
+		tempPhsBody.SetRotationAngleDeg(0.f);
+		tempPhsBody.SetFixedRotation(true);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+		tempPhsBody.SetGravityScale(1.f);
+	}
+
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
+}
 
 void PhysicsPlayground::Update()
 {
