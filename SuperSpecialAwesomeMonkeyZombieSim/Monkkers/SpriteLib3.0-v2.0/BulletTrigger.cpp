@@ -1,5 +1,6 @@
 #include "BulletTrigger.h"
 #include "ECS.h"
+#include "BackEnd.h"
 
 void BulletTrigger::OnTrigger()
 {
@@ -28,6 +29,8 @@ void BulletTrigger::OnEnter(int entity)
 	if (ECS::GetComponent<PhysicsBody>(m_triggerEntity).getEntityCategoryType() == ENEMY) {
 		this->penetration -= 1.f;
 		ECS::GetComponent<Zombie>(entity).dealDamage(this->damage); // Send him to Brazil
+		ECS::GetComponent<Player>(entity).addPoints(10);
+
 		if (penetration < 0) {
 			if (!beingDeleted) {
 				beingDeleted = true;

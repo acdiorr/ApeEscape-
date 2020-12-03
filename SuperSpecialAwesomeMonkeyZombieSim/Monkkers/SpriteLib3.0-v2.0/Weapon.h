@@ -22,6 +22,8 @@ private:
 	float accuracy; // Firing Cone Angle in Degrees
 	bool FullAuto;
 	bool TriggerRelease = true; // If true, player will need to press the fire button again to shoot again.
+	float BarrelOffsetX = 0;
+	float BarrelOffsetY = 0;
 
 	//Update
 	float updateReload;
@@ -38,7 +40,7 @@ private:
 	std::string ReloadSound;
 	std::string SlideSound;
 	std::string EmptyTriggerPull;
-	
+
 	std::string bullet_type; //Standard, Explosive, etc.
 
 
@@ -52,5 +54,6 @@ public:
 	void weaponUpdate();
 	int getBurstSize();
 	float getAccuracy();
+	float getBarrelOffsetX();
+	float getBarrelOffsetY();
 };
-

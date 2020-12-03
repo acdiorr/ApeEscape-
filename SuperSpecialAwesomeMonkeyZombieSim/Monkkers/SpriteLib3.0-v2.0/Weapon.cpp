@@ -152,3 +152,13 @@ float Weapon::getAccuracy()
 {
 	return this->accuracy;
 }
+
+float Weapon::getBarrelOffsetX()
+{
+	return this->BarrelOffsetX;
+}
+
+float Weapon::getBarrelOffsetY()
+{
+	return this->BarrelOffsetY;
+}
