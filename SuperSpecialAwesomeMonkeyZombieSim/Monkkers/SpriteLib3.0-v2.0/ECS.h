@@ -21,6 +21,7 @@
 #include "Weapon.h"
 #include "AdjustBarrierHealth.h"
 #include "Zombie.h"
+//#include "Player.h" //Demonic Line of Code, fuck this
 
 
 class ECS abstract

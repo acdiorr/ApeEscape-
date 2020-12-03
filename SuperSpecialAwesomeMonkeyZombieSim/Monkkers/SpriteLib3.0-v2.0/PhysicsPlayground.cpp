@@ -49,24 +49,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 	}
 
-	//Setup new Entity
-	{
-		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
-
-		//Creates entity
-		//auto entity = ECS::CreateEntity();
-
-		//Add components
-		//ECS::AttachComponent<Sprite>(entity);
-		//ECS::AttachComponent<Transform>(entity);
-
-		//Set up the components
-		//std::string fileName = "HelloWorld.png";
-		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 60);
-		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.5f);
-		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
-	}
-
 	//Ramlethal entity
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
@@ -171,8 +153,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	// Top Wall
 	CreateBoxEntity("l.png", 566, 10, -53.f, 882.f);
 	
-
-
 	//Health Vignette
 	EffectManager::CreateEffect(Vignette, BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
 	VignetteEffect* vigH = (VignetteEffect*)EffectManager::GetEffect(EffectManager::GetVignetteHandle());
@@ -623,7 +603,7 @@ void PhysicsPlayground::KeyboardHold()
 			std::string fileName = "BulletStreak.jpg";
 			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1, 5);
 			b2Vec2 BarrelPosition = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition();
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(BarrelPosition.x, BarrelPosition.y, 80.f));
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(BarrelPosition.x + playerWeapon.getBarrelOffsetX(), BarrelPosition.y + playerWeapon.getBarrelOffsetY(), 80.f));
 			ECS::GetComponent<Trigger*>(entity) = new BulletTrigger();
 			ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(entity);
 			ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
@@ -635,12 +615,12 @@ void PhysicsPlayground::KeyboardHold()
 			b2Body* tempBody;
 			b2BodyDef tempDef;
 			tempDef.type = b2_dynamicBody;
-			tempDef.position.Set(BarrelPosition.x, BarrelPosition.y);
+			tempDef.position.Set(BarrelPosition.x + playerWeapon.getBarrelOffsetX(), BarrelPosition.y + playerWeapon.getBarrelOffsetY());
 			tempDef.bullet = true;
 			float angle = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetRotationAngleDeg();
 			angle += std::rand() % (2 * (int)playerWeapon.getAccuracy()) - (int)playerWeapon.getAccuracy();
 			tempDef.linearVelocity = b2Vec2(float32(BulletVelocity * sin(-angle * 0.01745329f)), float32(BulletVelocity * cos(-angle * 0.01745329f)));
-			std::cout << angle << std::endl;
+			//std::cout << angle << std::endl;
 			tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, ENVIRONMENT | ENEMY | OBJECTS);

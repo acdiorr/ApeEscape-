@@ -83,7 +83,8 @@ public:
 
 	//Adds a specified number of points to the score count
 	void addPoints(int amount);
-
+	//Returns true if the transaction was successful, and removes the amount from the player's point pool. Otherwise returns false.
+	bool spendPoints(int amount);
 
 
 

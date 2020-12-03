@@ -129,7 +129,14 @@ void Player::takeDamage(int damage) {
 
 void Player::addPoints(int amount) {
 	this->Score += amount;
+}
 
+bool Player::spendPoints(int amount) {
+	if (this->Score > amount) {
+		this->Score -= amount;
+		return true;
+	}
+	return false;
 }
 
 void Player::MovementUpdate()
