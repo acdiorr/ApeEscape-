@@ -19,11 +19,15 @@ void BulletTrigger::OnEnter(int entity)
 			this->damage = 8.f;
 			this->penetration = 5.f;
 		}
+		if (gunName == "AR") {
+			this->damage = 2.f;
+			this->penetration = 1.f;
+		}
 	}
 
 	if (ECS::GetComponent<PhysicsBody>(m_triggerEntity).getEntityCategoryType() == ENEMY) {
 		this->penetration -= 1.f;
-		//ECS::GetComponent<Zombie>(entity).DamageZombie(this->damage); // Send him to Brazil
+		ECS::GetComponent<Zombie>(entity).dealDamage(this->damage); // Send him to Brazil
 		if (penetration < 0) {
 			if (!beingDeleted) {
 				beingDeleted = true;

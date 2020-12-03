@@ -87,7 +87,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
-		ECS::GetComponent<Weapon>(entity).createWeapon("M1911");
+		ECS::GetComponent<Weapon>(entity).createWeapon("AK47");
 		 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -306,6 +306,7 @@ void PhysicsPlayground::Update()
 	}
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
+	ECS::GetComponent<Weapon>(MainEntities::MainPlayer()).weaponUpdate();
 }
 
 void PhysicsPlayground::GUI()
@@ -544,6 +545,7 @@ void PhysicsPlayground::KeyboardHold()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	auto& playerPlayer = ECS::GetComponent<Player>(MainEntities::MainPlayer());
+	auto& playerWeapon = ECS::GetComponent<Weapon>(MainEntities::MainPlayer());
 	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
 	float speed = 15.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
@@ -603,6 +605,49 @@ void PhysicsPlayground::KeyboardHold()
 	}
 
 	player.GetBody()->SetLinearVelocity(b2Vec2(vel.x * speed, vel.y * speed));
+
+	if (Input::GetKey(Key::RightContol)) {
+		if (playerWeapon.fire()) {
+			//Creates the bullet
+			float BulletVelocity = 500.f;
+			//Creates entity
+			auto entity = ECS::CreateEntity();
+
+			//Add components
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+			ECS::AttachComponent<PhysicsBody>(entity);
+			ECS::AttachComponent<Trigger*>(entity);
+
+			//Sets up components
+			std::string fileName = "BulletStreak.jpg";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1, 5);
+			b2Vec2 BarrelPosition = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition();
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(BarrelPosition.x, BarrelPosition.y, 80.f));
+			ECS::GetComponent<Trigger*>(entity) = new BulletTrigger();
+			ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(entity);
+			ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+
+			auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+			auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+			float shrinkX = 0.f;
+			float shrinkY = 0.f;
+			b2Body* tempBody;
+			b2BodyDef tempDef;
+			tempDef.type = b2_dynamicBody;
+			tempDef.position.Set(BarrelPosition.x, BarrelPosition.y);
+			tempDef.bullet = true;
+			float angle = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetRotationAngleDeg();
+			angle += std::rand() % (2 * (int)playerWeapon.getAccuracy()) - (int)playerWeapon.getAccuracy();
+			tempDef.linearVelocity = b2Vec2(float32(BulletVelocity * sin(-angle * 0.01745329f)), float32(BulletVelocity * cos(-angle * 0.01745329f)));
+			std::cout << angle << std::endl;
+			tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+			tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, ENVIRONMENT | ENEMY | OBJECTS);
+			tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+			ECS::GetComponent<PhysicsBody>(entity).SetRotationAngleDeg(angle);
+		}
+	}
 }
 
 void PhysicsPlayground::KeyboardDown()
@@ -615,43 +660,10 @@ void PhysicsPlayground::KeyboardDown()
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
 
-	if (Input::GetKeyDown(Key::RightContol)){
-		float BulletVelocity = 500.f;
-		//Creates entity
-		auto entity = ECS::CreateEntity();
-
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
-		ECS::AttachComponent<Trigger*>(entity);
-
-		//Sets up components
-		std::string fileName = "BulletStreak.jpg";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1, 5);
-		b2Vec2 BarrelPosition = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition();
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(BarrelPosition.x, BarrelPosition.y, 80.f));
-		ECS::GetComponent<Trigger*>(entity) = new BulletTrigger();
-		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(entity);
-		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
-
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-		float shrinkX = 0.f;
-		float shrinkY = 0.f;
-		b2Body* tempBody;
-		b2BodyDef tempDef;
-		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(BarrelPosition.x, BarrelPosition.y);
-		tempDef.bullet = true;
-		float angle = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetRotationAngleDeg();
-		tempDef.linearVelocity = b2Vec2(float32(BulletVelocity * sin(-angle * 0.01745329f)), float32(BulletVelocity * cos(-angle * 0.01745329f)));
-		std::cout << angle << std::endl;
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, ENVIRONMENT | ENEMY | OBJECTS);
-		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
-		ECS::GetComponent<PhysicsBody>(entity).SetRotationAngleDeg(angle);
+	//Shooting
+	if (Input::GetKeyDown(Key::R))
+	{
+		playerWeapon.reload();
 	}
 }
 

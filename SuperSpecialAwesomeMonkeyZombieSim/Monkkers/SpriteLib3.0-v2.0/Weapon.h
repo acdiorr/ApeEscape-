@@ -20,6 +20,12 @@ private:
 	int burstSize; // Number of bullets from a single burst
 	float burstTime; // Time between burst shots
 	float accuracy; // Firing Cone Angle in Degrees
+	bool FullAuto;
+	bool TriggerRelease = true; // If true, player will need to press the fire button again to shoot again.
+
+	//Update
+	float updateReload;
+	float updateTimeBetweenShots;
 
 	//Animation Properties
 	//std::string HUDSprite;
@@ -27,6 +33,11 @@ private:
 	//std::string sprite;
 	//std::string animation json
 	//Maybe we should make an Animation Class that stores anim related stuff to access it easily?
+
+	std::string FiringSound;
+	std::string ReloadSound;
+	std::string SlideSound;
+	std::string EmptyTriggerPull;
 	
 	std::string bullet_type; //Standard, Explosive, etc.
 
@@ -34,10 +45,12 @@ private:
 public:
 	//Use this to set the player's current gun. createWeapon is a bit of an antiquated name.
 	void createWeapon(std::string name);
-	float reload(float time, bool reload); //Place in update so it runs every frame. When 
-	//void fire(b2World PhysicsWorld);
-	//void Ball(b2World PhysicsWorld);
+	void reload(); //Place in update so it runs every frame. When 
+	bool fire();
 	void addAmmo(int pickup);
 	std::string getName();
+	void weaponUpdate();
+	int getBurstSize();
+	float getAccuracy();
 };
 

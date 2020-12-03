@@ -202,6 +202,7 @@
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Xinput.h" />
+    <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdjustBarrierHealth.cpp" />
@@ -267,6 +268,7 @@
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="XInput.cpp" />
+    <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
