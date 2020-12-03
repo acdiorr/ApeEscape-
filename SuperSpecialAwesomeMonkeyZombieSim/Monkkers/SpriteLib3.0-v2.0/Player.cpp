@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include <cstring>
 Player::Player()
 {
 }
@@ -33,48 +33,16 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 
 	//Loads in the animations json file
 	nlohmann::json animations = File::LoadJSON(animationJSON);
+	std::string animationNames[2] = {"idle", "moving"};
 
-	//IDLE ANIMATIONS\\
-	
-	//Idle Left
-	m_animController->AddAnimation(animations["IdleLeft"].get<Animation>());
-	//Idle Right
-	m_animController->AddAnimation(animations["IdleRight"].get<Animation>());
-#ifdef TOPDOWN
-	//Idle Up
-	m_animController->AddAnimation(animations["IdleUp"].get<Animation>());
-	//Idle Down
-	m_animController->AddAnimation(animations["IdleDown"].get<Animation>());
-#endif
-
-	//Walk Animations\\
-
-	//WalkLeft
-	m_animController->AddAnimation(animations["WalkLeft"].get<Animation>());
-	//WalkRight
-	m_animController->AddAnimation(animations["WalkRight"].get<Animation>());
-#ifdef TOPDOWN
-	//WalkUP
-	m_animController->AddAnimation(animations["WalkUp"].get<Animation>());
-	//WalkDown
-	m_animController->AddAnimation(animations["WalkDown"].get<Animation>());
-#endif
-
-	//Attack Animations\\
-
-	//AttackLeft
-	m_animController->AddAnimation(animations["AttackLeft"].get<Animation>());
-	//AttackRight
-	m_animController->AddAnimation(animations["AttackRight"].get<Animation>());
-#ifdef TOPDOWN
-	//AttackUp
-	m_animController->AddAnimation(animations["AttackUp"].get<Animation>());
-	//AttackDown
-	m_animController->AddAnimation(animations["AttackDown"].get<Animation>());
-#endif
+	int length = sizeof(animationNames) / sizeof(animationNames[0]);
+	for (int i = 0; i < length; i++)
+	{
+		m_animController->AddAnimation(animations[animationNames[i]].get<Animation>());
+	}
 
 	//Set Default Animation
-	m_animController->SetActiveAnim(IDLELEFT);
+	m_animController->SetActiveAnim(0);
 
 
 }
@@ -142,47 +110,55 @@ bool Player::spendPoints(int amount) {
 void Player::MovementUpdate()
 {
 	m_moving = false;
-
+	float rotationalSpeed = 3.f;
 	if (m_hasPhysics)
 	{
-		float speed = 10.f;
+		float speed = 15.f;
 		vec3 vel = vec3(0.f, 0.f, 0.f);
 
 		if (Input::GetKey(Key::Shift))
 		{
-			speed *= 7.f;
+			speed *= 3.f;
 		}
 
-#ifdef TOPDOWN
 		if (Input::GetKey(Key::W))
 		{
 			vel = vel + vec3(0.f, 1.f, 0.f);
-			m_facing = UP;
+			//m_facing = UP;
 			m_moving = true;
 		}
 		if (Input::GetKey(Key::S))
 		{
 			vel = vel + vec3(0.f, -1.f, 0.f);
-			m_facing = DOWN;
+			//m_facing = DOWN;
 			m_moving = true;
 		}
-#endif
 
 		if (Input::GetKey(Key::A))
 		{
 			vel = vel + vec3(-1.f, 0.f, 0.f);
-			m_facing = LEFT;
+			//m_facing = LEFT;
 			m_moving = true;
 		}
 		if (Input::GetKey(Key::D))
 		{
 			vel = vel + vec3(1.f, 0.f, 0.f);
-			m_facing = RIGHT;
+			//m_facing = RIGHT;
 			m_moving = true;
+		}
+
+		if (Input::GetKey(Key::RightArrow))
+		{
+			m_physBody->SetRotationAngleDeg(m_physBody->GetRotationAngleDeg() - rotationalSpeed);
+		}
+		if (Input::GetKey(Key::LeftArrow))
+		{
+			m_physBody->SetRotationAngleDeg(m_physBody->GetRotationAngleDeg() + rotationalSpeed);
 		}
 
 		m_physBody->SetVelocity(vel * speed);
 	}
+
 	else
 	{
 		//Regular Movement
@@ -192,13 +168,13 @@ void Player::MovementUpdate()
 		if (Input::GetKey(Key::W))
 		{
 			m_transform->SetPositionY(m_transform->GetPositionY() + (speed * Timer::deltaTime));
-			m_facing = UP;
+			//m_facing = UP;
 			m_moving = true;
 		}
 		if (Input::GetKey(Key::S))
 		{
 			m_transform->SetPositionY(m_transform->GetPositionY() - (speed * Timer::deltaTime));
-			m_facing = DOWN;
+			//m_facing = DOWN;
 			m_moving = true;
 		}
 #endif
@@ -206,13 +182,13 @@ void Player::MovementUpdate()
 		if (Input::GetKey(Key::A))
 		{
 			m_transform->SetPositionX(m_transform->GetPositionX() - (speed * Timer::deltaTime));
-			m_facing = LEFT;
+			//m_facing = LEFT;
 			m_moving = true;
 		}
 		if (Input::GetKey(Key::D))
 		{
 			m_transform->SetPositionX(m_transform->GetPositionX() + (speed * Timer::deltaTime));
-			m_facing = RIGHT;
+			//m_facing = RIGHT;
 			m_moving = true;
 		}
 	}
@@ -226,7 +202,7 @@ void Player::MovementUpdate()
 			m_physBody->SetVelocity(vec3());
 		}
 
-		m_attacking = true;
+		//m_attacking = true;
 		m_locked = true;
 	}
 }
@@ -238,8 +214,9 @@ void Player::AnimationUpdate()
 	if (m_moving)
 	{
 		//Puts it into the WALK category
-		activeAnimation = WALK;
+		activeAnimation = (int)AnimEnums::MOVING;
 	}
+	/*
 	else if (m_attacking)
 	{
 		activeAnimation = ATTACK;
@@ -256,12 +233,14 @@ void Player::AnimationUpdate()
 			activeAnimation = IDLE;
 		}
 	}
+	*/
 	else
 	{
-		activeAnimation = IDLE;
+		activeAnimation = (int)AnimEnums::IDLE;
 	}
 
-	SetActiveAnimation(activeAnimation + (int)m_facing);
+	//SetActiveAnimation(activeAnimation + (int)m_facing);
+	SetActiveAnimation(activeAnimation);
 }
 
 void Player::SetActiveAnimation(int anim)
