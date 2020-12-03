@@ -20,6 +20,7 @@
 #include "CanJump.h"
 #include "Weapon.h"
 #include "AdjustBarrierHealth.h"
+#include "Zombie.h"
 
 
 class ECS abstract
