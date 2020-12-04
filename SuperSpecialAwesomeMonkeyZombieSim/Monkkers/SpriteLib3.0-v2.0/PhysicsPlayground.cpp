@@ -219,6 +219,12 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(5.f - shrinkX), float(40.f - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
+	
+	//Spawn Zongie
+	{
+		spawnZombie(-30.f, -300.f);
+	}
+	
 	//Player entity
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
@@ -286,6 +292,10 @@ void PhysicsPlayground::Update()
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<Weapon>(MainEntities::MainPlayer()).weaponUpdate();
+
+	for (int x = 0; x < this->zombieEnts.size(); x++) {
+		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).zombieUpdate(ECS::GetComponent<PhysicsBody>(this->zombieEnts.at(x)), &this->zombieEnts, this->zombieEnts.at(x));
+	}
 }
 
 void PhysicsPlayground::GUI()
@@ -627,4 +637,42 @@ void PhysicsPlayground::KeyboardUp()
 {
 
 
+}
+
+void PhysicsPlayground::spawnZombie(float posX, float posY)
+{
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up the components
+	std::string fileName = "Poggers.png";
+
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(posX, posY, 2.f));
+	//ECS::GetComponent<Zombie>(entity)
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_dynamicBody;
+	tempDef.position.Set(float32(posX), float32(posY));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 0.f), false, ENEMY, PLAYER | OBJECTS | PICKUP | GROUND | TRIGGER, 0.5f, 3.f);
+
+	tempPhsBody.SetRotationAngleDeg(0.f);
+	tempPhsBody.SetFixedRotation(true);
+	tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+	tempPhsBody.SetGravityScale(1.f);
+
+	this->zombieEnts.push_back(entity);
 }
