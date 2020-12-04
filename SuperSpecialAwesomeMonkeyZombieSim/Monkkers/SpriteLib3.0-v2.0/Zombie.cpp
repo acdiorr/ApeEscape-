@@ -17,14 +17,17 @@ void Zombie::dealDamage(float damageAmount)
     this->health -= damageAmount;
 }
 
-void Zombie::zombieUpdate(PhysicsBody ZombiePhysicsBody, std::vector <int>* zEnts, int Zentity)
+void Zombie::zombieUpdate(PhysicsBody ZombiePhysicsBody, std::vector <unsigned int>* zEnts, int Zentity)
+//std::cout << "X: " << ZombiePhysicsBody.GetPosition().x << " Y: " << ZombiePhysicsBody.GetPosition().y << std::endl;
 {
     if (this->timeSinceLastAttack > 0) {
         this->timeSinceLastAttack -= Timer::deltaTime;
+        std::cout << "Zombie Attacked and cannot move rn" << std::endl;
     }
     else {
         //Face Player
         {
+            std::cout << "Zombie is rotating to find the player" << std::endl;
             float zToPX = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().x - ZombiePhysicsBody.GetPosition().x;
             float zToPY = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().y - ZombiePhysicsBody.GetPosition().y;
             if (zToPY == 0) {
@@ -92,7 +95,7 @@ void Zombie::makeZombie()
 {
 }
 
-void Zombie::killZombie(std::vector <int> *zEnts, int entity)
+void Zombie::killZombie(std::vector <unsigned int> *zEnts, int entity)
 {
     for (int x = 0; x < zEnts->size(); x++) {
         if (zEnts->at(x) == entity) {
