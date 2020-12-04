@@ -49,83 +49,65 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 	}
 
-	//Setup new Entity
-	{
-		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
-
-		//Creates entity
-		auto entity = ECS::CreateEntity();
-
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		//Set up the components
-		//std::string fileName = "HelloWorld.png";
-		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 60);
-		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.5f);
-		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
-	}
-
-	
 	// Setup Map (Breaking it off into sections, naming each wall accordingly)
+	{
+		//Setup Lobby
 
-	//Setup Lobby
+		// Bottom Wall
+		CreateBoxEntity("l.png", 300, 10, -10.f, -30.f);
+		// Right Wall 1 
+		//Removed for first barrier
+		//CreateBoxEntity("l.png", 10, 100, 140.f, 15.f);
+		// Top Wall 1 
+		CreateBoxEntity("l.png", 100, 10, 90.f, 60.f);
+		// Right Wall 2
+		CreateBoxEntity("l.png", 10, 100, 45.f, 110.f);
+		// "Door 1" (Remove when doing full map)
+		CreateBoxEntity("l.png", 10, 99, 45.f, 209.f);
+		// Top Wall 2
+		CreateBoxEntity("l.png", 60, 10, 20.f, 262.f);
+		// Top Wall 3 
+		CreateBoxEntity("l.png", 60, 10, -120.f, 262.f);
+		// Left Wall 
+		CreateBoxEntity("l.png", 10, 285, -155.f, 115.f);
+		//Start of First Barrier
+		//CreateBoxEntity("BarrierImage.png", 10, 40, 140.f, 15.f);
+		//Right wall top side of barrier
+		CreateBoxEntity("l.png", 10, 30, 140.f, 50.f);
+		//Right Wall Left Side of Barrier
+		CreateBoxEntity("l.png", 10, 30, 140.f, -20.f);
+		//Right/Top horizontal wall to create zombie hallway
+		CreateBoxEntity("l.png", 100, 10, 190.f, 40.f);
+		//Right/Bottom Horizontal wall to create zombie hallway
+		CreateBoxEntity("l.png", 100, 10, 190.f, -10.f);
+		//End of barrier hallway
+		CreateBoxEntity("1.png", 10, 60, 235.f, 15.f);
 
-	// Bottom Wall
-	CreateBoxEntity("l.png", 300, 10, -10.f, -30.f);
-	// Right Wall 1 
-	//Removed for first barrier
-	//CreateBoxEntity("l.png", 10, 100, 140.f, 15.f);
-	// Top Wall 1 
-	CreateBoxEntity("l.png", 100, 10, 90.f, 60.f);
-	// Right Wall 2
-	CreateBoxEntity("l.png", 10, 100, 45.f, 110.f);
-	// "Door 1" (Remove when doing full map)
-	CreateBoxEntity("l.png", 10, 99, 45.f, 209.f);
-	// Top Wall 2
-	CreateBoxEntity("l.png", 60, 10, 20.f, 262.f);
-	// Top Wall 3 
-	CreateBoxEntity("l.png", 60, 10, -120.f, 262.f);
-	// Left Wall 
-	CreateBoxEntity("l.png", 10, 285, -155.f, 115.f);
-	//Start of First Barrier
-	//CreateBoxEntity("BarrierImage.png", 10, 40, 140.f, 15.f);
-	//Right wall top side of barrier
-	CreateBoxEntity("l.png", 10, 30, 140.f, 50.f);
-	//Right Wall Left Side of Barrier
-	CreateBoxEntity("l.png", 10, 30, 140.f, -20.f);
-	//Right/Top horizontal wall to create zombie hallway
-	CreateBoxEntity("l.png", 100, 10, 190.f, 40.f);
-	//Right/Bottom Horizontal wall to create zombie hallway
-	CreateBoxEntity("l.png", 100, 10, 190.f, -10.f);
-	//End of barrier hallway
-	CreateBoxEntity("1.png", 10, 60, 235.f, 15.f);
+		// Setup Theatre (+ hallway)
 
-	// Setup Theatre (+ hallway)
-
-	// Left Wall (for hallway)
-	CreateBoxEntity("l.png", 10, 200, -95.f, 357.f);
-	// Right Wall (for hallway)
-	CreateBoxEntity("l.png", 10, 200, -15.f, 357.f);
-	// Bottom Wall 1 (Left of hallway)
-	CreateBoxEntity("l.png", 200, 10, -190.f, 452.f);
-	// Bottom Wall 2 (Right of hallway)
-	CreateBoxEntity("l.png", 200, 10, 80.f, 452.f);
-	// Left Wall 1 
-	CreateBoxEntity("l.png", 10, 120, -290.f, 507.f);
-	// Right Wall 1 
-	CreateBoxEntity("l.png", 10, 120, 175.f, 507.f);
-	// Bottom Wall 3 (Left side above Left Wall 1)
-	CreateBoxEntity("l.png", 50, 10, -320.f, 562.f);
-	// Bottom Wall 4 (Right side above Right Wall 1)
-	CreateBoxEntity("l.png", 50, 10, 205.f, 562.f);
-	// Left Wall 2 (Left side above Bottom Wall 3)
-	CreateBoxEntity("l.png", 10, 320, -340.f, 727.f);
-	// Right Wall 2(Right side above Bottom Wall 4)
-	CreateBoxEntity("l.png", 10, 330, 225.f, 722.f);
-	// Top Wall
-	CreateBoxEntity("l.png", 566, 10, -53.f, 882.f);
+		// Left Wall (for hallway)
+		CreateBoxEntity("l.png", 10, 200, -95.f, 357.f);
+		// Right Wall (for hallway)
+		CreateBoxEntity("l.png", 10, 200, -15.f, 357.f);
+		// Bottom Wall 1 (Left of hallway)
+		CreateBoxEntity("l.png", 200, 10, -190.f, 452.f);
+		// Bottom Wall 2 (Right of hallway)
+		CreateBoxEntity("l.png", 200, 10, 80.f, 452.f);
+		// Left Wall 1 
+		CreateBoxEntity("l.png", 10, 120, -290.f, 507.f);
+		// Right Wall 1 
+		CreateBoxEntity("l.png", 10, 120, 175.f, 507.f);
+		// Bottom Wall 3 (Left side above Left Wall 1)
+		CreateBoxEntity("l.png", 50, 10, -320.f, 562.f);
+		// Bottom Wall 4 (Right side above Right Wall 1)
+		CreateBoxEntity("l.png", 50, 10, 205.f, 562.f);
+		// Left Wall 2 (Left side above Bottom Wall 3)
+		CreateBoxEntity("l.png", 10, 320, -340.f, 727.f);
+		// Right Wall 2(Right side above Bottom Wall 4)
+		CreateBoxEntity("l.png", 10, 330, 225.f, 722.f);
+		// Top Wall
+		CreateBoxEntity("l.png", 566, 10, -53.f, 882.f);
+	}
 	
 	//Health Vignette
 	EffectManager::CreateEffect(Vignette, BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
@@ -243,7 +225,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(5.f - shrinkX), float(40.f - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-	//Ramlethal entity
+	//Player entity
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
 
@@ -265,7 +247,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 20, 20, &ECS::GetComponent<Sprite>(entity), &ECS::GetComponent<AnimationController>(entity),
 			&ECS::GetComponent<Transform>(entity), true, &ECS::GetComponent<PhysicsBody>(entity));
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
-		ECS::GetComponent<Weapon>(entity).createWeapon("M1911");
+		ECS::GetComponent<Weapon>(entity).createWeapon("AK47");
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -281,9 +263,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		//tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
-		//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
-		std::vector<b2Vec2> points = { b2Vec2(-tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(0, tempSpr.GetHeight() / 2.f) };
-		tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | GROUND | TRIGGER, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | GROUND | TRIGGER, 0.5f, 3.f);
+		//std::vector<b2Vec2> points = { b2Vec2(-tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f), b2Vec2(0, tempSpr.GetHeight() / 2.f) };
+		//tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | GROUND | TRIGGER, 0.5f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
