@@ -193,18 +193,6 @@ void Player::MovementUpdate()
 		}
 	}
 
-	if (Input::GetKeyDown(Key::Space))
-	{
-		m_moving = false;
-
-		if (m_hasPhysics)
-		{
-			m_physBody->SetVelocity(vec3());
-		}
-
-		//m_attacking = true;
-		m_locked = true;
-	}
 }
 
 void Player::AnimationUpdate()
@@ -241,6 +229,16 @@ void Player::AnimationUpdate()
 
 	//SetActiveAnimation(activeAnimation + (int)m_facing);
 	SetActiveAnimation(activeAnimation);
+}
+
+void Player::AttachBody(PhysicsBody* body)
+{
+	m_physBody = body;
+}
+
+void Player::AttachAnimation(AnimationController* controller)
+{
+	m_animController = controller;
 }
 
 void Player::SetActiveAnimation(int anim)

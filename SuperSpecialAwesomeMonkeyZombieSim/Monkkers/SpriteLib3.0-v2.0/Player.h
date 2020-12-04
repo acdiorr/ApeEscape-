@@ -42,7 +42,8 @@ public:
 	void Update();
 	void MovementUpdate();
 	void AnimationUpdate();
-
+	void AttachBody(PhysicsBody* body);
+	void AttachAnimation(AnimationController* controller);
 	//Damages the player based on the damage you want him to take
 	void takeDamage(int damage);
 
