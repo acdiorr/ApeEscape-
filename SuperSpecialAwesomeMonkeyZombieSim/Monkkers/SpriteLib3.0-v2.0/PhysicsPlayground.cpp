@@ -228,7 +228,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	
 	//Spawn Zongie
 	{
-		spawnZombie(-30.f, -300.f);
+		spawnZombie(-30.f, 300.f);
 	}
 	
 	//Player entity
@@ -651,12 +651,13 @@ void PhysicsPlayground::spawnZombie(float posX, float posY)
 	ECS::AttachComponent<Sprite>(entity);
 	ECS::AttachComponent<Transform>(entity);
 	ECS::AttachComponent<PhysicsBody>(entity);
+	ECS::AttachComponent<Zombie>(entity);
 
 	//Sets up the components
 	std::string fileName = "Poggers.png";
 
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(posX, posY, 2.f));
-	//ECS::GetComponent<Zombie>(entity)
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
 
 	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);

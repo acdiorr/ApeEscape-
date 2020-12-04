@@ -17,8 +17,8 @@ public:
 	float getMovementSpeed(); // Returns how quick the zonkie can nae nae across the room
 	float getZombieHealth(); // Returns how much health the zombie currently has. We will probably never need this.
 	void dealDamage(float damageAmount); // This number will be subtracted from the zombies total health
-	void zombieUpdate(PhysicsBody ZombiePhysicsBody, std::vector <int>* zEnts, int Zentity); // Moves the zombie in the direction of the player, and performs an attack if the player is within a certain range
+	void zombieUpdate(PhysicsBody ZombiePhysicsBody, std::vector <unsigned int>* zEnts, int Zentity); // Moves the zombie in the direction of the player, and performs an attack if the player is within a certain range
 	void makeZombie(); //Zombie Constructor if we need one
-	void killZombie(std::vector <int> *zEnts, int entity); //Use this to kill da mf Zonkie
+	void killZombie(std::vector <unsigned int> *zEnts, int entity); //Use this to kill da mf Zonkie
 };
 
