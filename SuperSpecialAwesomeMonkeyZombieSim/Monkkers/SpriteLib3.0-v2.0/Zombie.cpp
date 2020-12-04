@@ -17,7 +17,7 @@ void Zombie::dealDamage(float damageAmount)
     this->health -= damageAmount;
 }
 
-void Zombie::zombieUpdate(PhysicsBody ZombiePhysicsBody)
+void Zombie::zombieUpdate(PhysicsBody ZombiePhysicsBody, std::vector <int>* zEnts, int Zentity)
 {
     if (this->timeSinceLastAttack > 0) {
         this->timeSinceLastAttack -= Timer::deltaTime;
@@ -84,7 +84,7 @@ void Zombie::zombieUpdate(PhysicsBody ZombiePhysicsBody)
         }
     }
     if (this->health < 1) {
-        killZombie();
+        killZombie(zEnts, Zentity);
     }
 }
 
@@ -92,6 +92,12 @@ void Zombie::makeZombie()
 {
 }
 
-void Zombie::killZombie()
+void Zombie::killZombie(std::vector <int> *zEnts, int entity)
 {
+    for (int x = 0; x < zEnts->size(); x++) {
+        if (zEnts->at(x) == entity) {
+            zEnts->erase(zEnts->begin() + x);
+        }
+    }
+    PhysicsBody::m_bodiesToDelete.push_back(entity);
 }
