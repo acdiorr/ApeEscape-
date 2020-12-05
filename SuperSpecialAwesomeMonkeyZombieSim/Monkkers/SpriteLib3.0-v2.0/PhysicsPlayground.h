@@ -56,4 +56,6 @@ protected:
 	int noTouch = 7;
 	int image = 8;
 	int destroyBarrier = 0;
+	int MoveTheatre1 = 0;
+	int MoveTheatre2 = 0;
 };

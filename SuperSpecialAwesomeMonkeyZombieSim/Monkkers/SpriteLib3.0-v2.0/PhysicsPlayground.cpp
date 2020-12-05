@@ -201,15 +201,28 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		// Right Wall 1 
 		CreateBoxEntity("l.png", 10, 120, 175.f, 507.f);
 		// Bottom Wall 3 (Left side above Left Wall 1)
-		CreateBoxEntity("l.png", 50, 10, -320.f, 562.f);
+		//CreateBoxEntity("l.png", 50, 10, -320.f, 562.f);
 		// Bottom Wall 4 (Right side above Right Wall 1)
 		CreateBoxEntity("l.png", 50, 10, 205.f, 562.f);
 		// Left Wall 2 (Left side above Bottom Wall 3)
-		CreateBoxEntity("l.png", 10, 320, -340.f, 727.f);
+		CreateBoxEntity("l.png", 10, 330, -340.f, 720.f);
 		// Right Wall 2(Right side above Bottom Wall 4)
 		CreateBoxEntity("l.png", 10, 330, 225.f, 722.f);
 		// Top Wall
-		CreateBoxEntity("l.png", 566, 10, -53.f, 882.f);
+		CreateBoxEntity("l.png", 520, 10, -80.f, 882.f);
+
+		//Start of Left Theatre Barrier #1
+		// Bottom of barrier hallway
+		CreateBoxEntity("l.png", 50, 10, -320.f, 510.f);
+		//Barrier Left Wall
+		CreateBoxEntity("l.png", 10, 60, -340.f, 540.f);
+
+		//Start of Top Right Theatre Barrier #2
+		CreateBoxEntity("l.png", 50, 10, 200.f, 930.f);
+		//Barrier Left Wall
+		CreateBoxEntity("l.png", 10, 50, 174.5f, 910.f);
+		//Barrier Right Wall
+		CreateBoxEntity("l.png", 10, 50, 225.5f, 910.f);
 	}
 	
 	//Health Vignette
@@ -224,7 +237,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//end trigger for barriers
 	endTriggerEntity = CreateEndTrigger(false, "barrierimage.png", 10, 10, 30.f, -20.f, 80.f, 460.f, 317.f);
 	// #1 Lobby Barrier
-	//Setup trigger
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
@@ -254,7 +266,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT | PLAYER | ENEMY);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	}
-	//Setup inside trigger for moving barrier #1 Away
+	//Setup inside trigger for moving lobby barrier #1 Away
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
@@ -291,7 +303,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
 
-	//Setup outside trigger for moving barrier #1 Back
+	//Setup outside trigger for moving lobby barrier #1 Back
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
@@ -329,6 +341,219 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
 	
+	// #1 Left Theatre Barrier
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		MoveTheatre1 = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "BarrierImage.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 10);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 2.f));
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(-315.f), float32(562.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT | PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+
+	//Setup inside trigger for moving theatre barrier #1 Away
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		endTrigEntity = entity;
+
+		//Add components
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+		ECS::AttachComponent<Sprite>(entity);
+
+		//Sets up components
+		std::string fileName = "BarrierImage.png";
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new EndTrigger();
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(MoveTheatre1);
+		EndTrigger* temp = (EndTrigger*)ECS::GetComponent<Trigger*>(entity);
+		//where to move entity
+		temp->movement = b2Vec2(-450.f, 560.f);
+
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(-315.f), float32(555.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(40.f - shrinkX), float(5.f - shrinkY), vec2(0.f, 0.f), true, TRIGGER, ENEMY | OBJECTS);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+
+	//Setup outside trigger for moving Left Theatre barrier #1 Back
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		returnBarEntity = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+
+		//Sets up components
+		std::string fileName = "BarrierImage.png";
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new AdjustBarrierHealthTrigger();
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(MoveTheatre1);
+		EndTrigger* temp = (EndTrigger*)ECS::GetComponent<Trigger*>(entity);
+		//where to move entity
+		temp->movement = b2Vec2(-315.f, 562.f);
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(-315.f), float32(568.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(40.f - shrinkX), float(5.f - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+
+	// Top Right Theatre Barrier #2
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		MoveTheatre2 = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "BarrierImage.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 10);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 2.f));
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(200.f), float32(882.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT | PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+
+	//Set up trigger for moving top right theatre barrier #2 away
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		endTrigEntity = entity;
+
+		//Add components
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+		ECS::AttachComponent<Sprite>(entity);
+
+		//Sets up components
+		std::string fileName = "BarrierImage.png";
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new EndTrigger();
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(MoveTheatre2);
+		EndTrigger* temp = (EndTrigger*)ECS::GetComponent<Trigger*>(entity);
+		//where to move entity
+		temp->movement = b2Vec2(-450.f, 600.f);
+
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(200.f), float32(890.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(40.f - shrinkX), float(5.f - shrinkY), vec2(0.f, 0.f), true, TRIGGER, ENEMY | OBJECTS);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+
+	//Setup outside trigger for moving Left Theatre barrier #1 Back
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		returnBarEntity = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+
+		//Sets up components
+		std::string fileName = "BarrierImage.png";
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new AdjustBarrierHealthTrigger();
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(MoveTheatre2);
+		EndTrigger* temp = (EndTrigger*)ECS::GetComponent<Trigger*>(entity);
+		//where to move entity
+		temp->movement = b2Vec2(200.f, 882.f);
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(200.f), float32(876.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(40.f - shrinkX), float(5.f - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+
+
 	//Spawn Zongie
 	{
 		spawnZombie(-30.f, 300.f);
@@ -367,7 +592,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(0.f), float32(30.f));
+		tempDef.position.Set(float32(200.f), float32(840.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
