@@ -404,6 +404,7 @@ void PhysicsPlayground::Update()
 
 	for (int x = 0; x < this->zombieEnts.size(); x++) {
 		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).zombieUpdate(ECS::GetComponent<PhysicsBody>(this->zombieEnts.at(x)), &this->zombieEnts, this->zombieEnts.at(x));
+		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).AttachAnimation(&ECS::GetComponent<AnimationController>(zombieEnts[x]));
 	}
 }
 
@@ -755,12 +756,15 @@ void PhysicsPlayground::spawnZombie(float posX, float posY)
 	ECS::AttachComponent<Transform>(entity);
 	ECS::AttachComponent<PhysicsBody>(entity);
 	ECS::AttachComponent<Zombie>(entity);
+	ECS::AttachComponent<AnimationController>(entity);
 
 	//Sets up the components
-	std::string fileName = "Poggers.png";
+	std::string fileName = "spritesheets/ZombieSprite.png";
+	std::string animations = "ZombieAnimations.json";
 
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(posX, posY, 2.f));
-	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+	ECS::GetComponent<Zombie>(entity).InitZombie(fileName, animations, 20, 20, &ECS::GetComponent<Sprite>(entity), &ECS::GetComponent<AnimationController>(entity),
+		&ECS::GetComponent<Transform>(entity), &ECS::GetComponent<PhysicsBody>(entity));
 
 	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
