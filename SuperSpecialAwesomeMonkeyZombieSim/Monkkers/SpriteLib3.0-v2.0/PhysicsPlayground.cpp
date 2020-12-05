@@ -48,9 +48,102 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<HorizontalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 	}
+	
+	
+	//Setup the Stage for the map
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components 
+		std::string fileName = "Stage.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 220, 100);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(10.0f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-54.f, 827.f, 1.f));
+	}
+	
+
+	//Setup the Kitchen tiling for the map
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components 
+		std::string fileName = "KitchenTiling.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 90);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(10.0f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(90.f, 16.f, 0.f));
+	}
+
+
+	//Setup the lobby tiling for the map
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components 
+		std::string fileName = "LobbyTiling.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 200, 291);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(10.0f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-57.f, 112.f, 0.f));
+	}
+
+	//Setup the hallway tiling for the map
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components 
+		std::string fileName = "HallwayTiling.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 80, 412);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(10.0f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-54.f, 250.f, 0.f));
+	}
+
+	//Setup the theatre tiling for the map
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components 
+		std::string fileName = "TheatreTiling.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 562, 462);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(10.0f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-54.f, 670.f, 0.f));
+	}
 
 	// Setup Map (Breaking it off into sections, naming each wall accordingly)
 	{
+
+		// Setup Crates on the Stage 
+
+		// Left Crate 
+		CreateBoxEntity("Crate.png", 40, 20, -114.f, 810.f, 45.f, true, 2.f);
+		// Middle Crate
+		CreateBoxEntity("Crate.png", 40, 20, -54.f, 860.f, 0.f, true, 2.f);
+		// Right Crate 
+		CreateBoxEntity("Crate.png", 40, 20, 4.f, 810.f, 0.f, true, 2.f);
+
 		//Setup Lobby
 
 		// Bottom Wall
@@ -82,6 +175,16 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		CreateBoxEntity("l.png", 100, 10, 190.f, -10.f);
 		//End of barrier hallway
 		CreateBoxEntity("1.png", 10, 60, 235.f, 15.f);
+
+		// Setup Zombie trap in Lobby 
+		
+		// Left Wall 
+		CreateBoxEntity("l.png", 10, 122, -100.f, 103.f);
+		// Top Wall
+		CreateBoxEntity("l.png", 110, 10, -50.f, 168.f);
+		// Right Wall
+		CreateBoxEntity("l.png", 10, 122, 0.f, 103.f);
+
 
 		// Setup Theatre (+ hallway)
 
