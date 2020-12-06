@@ -50,6 +50,9 @@ public:
 	//Updates the Vignette depending on the health number
 	void updateVignette(int health);
 
+	//Updates the vignette pos to be centered on the camera
+	void updateVignettePos();
+
 	//Adds a specified number of points to the score count
 	void addPoints(int amount);
 	//Returns true if the transaction was successful, and removes the amount from the player's point pool. Otherwise returns false.
@@ -59,6 +62,11 @@ public:
 
 private:
 	void SetActiveAnimation(int anim);
+
+	int bloodOne;
+	int bloodTwo;
+	int bloodThree;
+	int bloodFour;
 
 	int MaxHealth = 5;
 	int Health = 5;
