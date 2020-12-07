@@ -19,7 +19,7 @@ private:
 	float movementSpeed = 4.f; // Speeeed
 	float attackDamage = 1.f; // How much damage the zombie can deal to an enemy
 	float zombieAttackAngle = 45.f; // Checks to see if the player is within the enemy's damage cone. May go unused
-	float zombieAttackRange = 10.f; // How far zonkies can attack from
+	float zombieAttackRange = 20.f; // How far zonkies can attack from
 	float zombieTurningSpeed = 45.f;
 	float attackCooldown = 2.f; // How long zongies gotta wait to begin attacking/moving
 	float timeSinceLastAttack = 0;

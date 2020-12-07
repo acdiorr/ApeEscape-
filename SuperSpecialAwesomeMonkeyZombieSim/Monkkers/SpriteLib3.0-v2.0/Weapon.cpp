@@ -129,7 +129,7 @@ void Weapon::addAmmo(int pickup)
 
 std::string Weapon::getName()
 {
-	return this->name;
+	return this->bullet_type;
 }
 
 void Weapon::weaponUpdate()

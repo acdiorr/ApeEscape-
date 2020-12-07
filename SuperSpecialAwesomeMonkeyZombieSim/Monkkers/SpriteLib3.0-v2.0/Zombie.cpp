@@ -76,35 +76,25 @@ void Zombie::dealDamage(float damageAmount)
 
 void Zombie::zombieUpdate(PhysicsBody ZombiePhysicsBody, std::vector <unsigned int>* zEnts, int Zentity)
 {
+    //std::cout << health << std::endl;
+    
+    //Initialize Variables
     vec3 movement = vec3(0, 0, 0);
+    vec2 ZtoP = vec2(0, 0);
+    
+    //Check if the zombie is on cooldown
     if (this->timeSinceLastAttack > 0) {
         this->timeSinceLastAttack -= Timer::deltaTime;
-        std::cout << "Zombie Attacked and cannot move rn" << std::endl;
     }
+    //Zombie AI
     else {
-        //Face Player
+        //Rotating Zombie in the correct direction
         {
-            std::cout << "Zombie is rotating to find the player" << std::endl;
-            float zToPX = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().x - ZombiePhysicsBody.GetPosition().x;
-            float zToPY = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().y - ZombiePhysicsBody.GetPosition().y;
-            if (zToPY == 0) {
-                float angle = atan(-zToPX / 0.000001) * 57.29577951308f;
-                if (angle > this->zombieTurningSpeed) {
-                    ZombiePhysicsBody.SetRotationAngleDeg(ZombiePhysicsBody.GetRotationAngleDeg() + this->zombieTurningSpeed * Timer::deltaTime);
-                }
-                else {
-                    ZombiePhysicsBody.SetRotationAngleDeg(ZombiePhysicsBody.GetRotationAngleDeg() + angle * Timer::deltaTime);
-                }
-            }
-            else {
-                float angle = atan(-zToPX / zToPY) * 57.29577951308f;
-                if (angle > this->zombieTurningSpeed) {
-                    ZombiePhysicsBody.SetRotationAngleDeg(ZombiePhysicsBody.GetRotationAngleDeg() + this->zombieTurningSpeed * Timer::deltaTime);
-                }
-                else {
-                    ZombiePhysicsBody.SetRotationAngleDeg(ZombiePhysicsBody.GetRotationAngleDeg() + angle * Timer::deltaTime);
-                }
-            }
+            //Get Vector from the Zombie to the player
+            ZtoP = vec2(ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().x - ZombiePhysicsBody.GetPosition().x, ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().y - ZombiePhysicsBody.GetPosition().y);
+            //Angle from the Zombie to the Player
+            double ZtoPangle = atan2(ZtoP.x, ZtoP.y) * 57.29577951308;
+            ZombiePhysicsBody.SetRotationAngleDeg(-ZtoPangle);
         }
         //Move in the direction the zombie is facing
         {
@@ -123,33 +113,12 @@ void Zombie::zombieUpdate(PhysicsBody ZombiePhysicsBody, std::vector <unsigned i
         }
         //Attack Player if within range
         {
-            float zToPX = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().x - ZombiePhysicsBody.GetPosition().x;
-            float zToPY = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().y - ZombiePhysicsBody.GetPosition().y;
-            float distance = sqrt(zToPX * zToPX + zToPY * zToPY);
+            ZtoP = vec2(ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().x - ZombiePhysicsBody.GetPosition().x, ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().y - ZombiePhysicsBody.GetPosition().y);
+            float distance = sqrt(ZtoP.x * ZtoP.x + ZtoP.y * ZtoP.y);
             //Check if player is in attack range
             if (distance < this->zombieAttackRange) {
-                //Check if player is in enemy attack cone
-                float worldAngleZtoP;
-                //Uses near 0 for atan to prevent errors
-                if (zToPY == 0) {
-                    worldAngleZtoP = atan(-zToPX / 0.000001) * 57.29577951308f;
-                }
-                else {
-                    worldAngleZtoP = atan(-zToPX / zToPY) * 57.29577951308f;
-                }
-                float zombieFacingAngle = ZombiePhysicsBody.GetRotationAngleDeg();
-                //Set Zombie Facing Angle within the correct range
-                while (zombieFacingAngle >= 360.f) {
-                    zombieFacingAngle -= 360.f;
-                }
-                while (zombieFacingAngle < 0.f) {
-                    zombieFacingAngle += 360.f;
-                }
-                //Final Check
-                if (worldAngleZtoP > (zombieFacingAngle - this->zombieAttackAngle) && worldAngleZtoP < (zombieFacingAngle + this->zombieAttackAngle)) {
-                    this->timeSinceLastAttack = this->attackCooldown;
-                    ECS::GetComponent<Player>(MainEntities::MainPlayer()).takeDamage(1);
-                }
+                this->timeSinceLastAttack = this->attackCooldown;
+                ECS::GetComponent<Player>(MainEntities::MainPlayer()).takeDamage(1);
             }
         }
     }
