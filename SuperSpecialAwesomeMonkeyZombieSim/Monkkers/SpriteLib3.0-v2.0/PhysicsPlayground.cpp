@@ -113,7 +113,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "HallwayTiling.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 80, 412);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(10.0f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-54.f, 250.f, 0.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-54.f, 250.f, -0.5f));
 	}
 
 	//Setup the theatre tiling for the map
@@ -403,8 +403,8 @@ void PhysicsPlayground::Update()
 	ECS::GetComponent<Weapon>(MainEntities::MainPlayer()).weaponUpdate();
 
 	for (int x = 0; x < this->zombieEnts.size(); x++) {
-		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).zombieUpdate(ECS::GetComponent<PhysicsBody>(this->zombieEnts.at(x)), &this->zombieEnts, this->zombieEnts.at(x));
 		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).AttachAnimation(&ECS::GetComponent<AnimationController>(zombieEnts[x]));
+		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).zombieUpdate(ECS::GetComponent<PhysicsBody>(this->zombieEnts.at(x)), &this->zombieEnts, this->zombieEnts.at(x));
 	}
 }
 
