@@ -43,6 +43,10 @@ protected:
 	unsigned endTrigEntity;
 	unsigned returnBarEntity;
 
+	void spawnZombie(float posX, float posY);
+	std::vector <unsigned int> zombieEnts;
+	void killZombie(int entity);
+
 	int player = 0;
 	int wall = 1;
 	int ball = 2;
@@ -52,5 +56,6 @@ protected:
 	int wall3 = 6;
 	int noTouch = 7;
 	int image = 8;
+	int wHud = 10;
 	int destroyBarrier = 0;
 };

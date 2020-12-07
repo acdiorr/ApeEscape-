@@ -15,6 +15,8 @@ void Weapon::createWeapon(std::string name)
 		this->burstTime = 0.f;
 		this->accuracy = 2.f;
 		this->FullAuto = false;
+		this->BarrelOffsetX = 0;
+		this->BarrelOffsetY = 0;
 
 		//Active
 		this->current_mag = this->full_mag - 1;
@@ -34,6 +36,8 @@ void Weapon::createWeapon(std::string name)
 		this->burstTime = 0.f;
 		this->accuracy = 1.f;
 		this->FullAuto = false;
+		this->BarrelOffsetX = 0;
+		this->BarrelOffsetY = 0;
 
 		//Active
 		this->current_mag = this->full_mag - 1;
@@ -53,6 +57,8 @@ void Weapon::createWeapon(std::string name)
 		this->burstTime = 0.f;
 		this->accuracy = 5.f;
 		this->FullAuto = true;
+		this->BarrelOffsetX = 0;
+		this->BarrelOffsetY = 0;
 
 		//Active
 		this->current_mag = this->full_mag - 1;

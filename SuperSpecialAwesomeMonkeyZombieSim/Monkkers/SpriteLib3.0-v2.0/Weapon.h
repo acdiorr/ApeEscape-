@@ -26,8 +26,8 @@ private:
 	float BarrelOffsetY = 0;
 
 	//Update
-	float updateReload;
-	float updateTimeBetweenShots;
+	float updateReload = 0.f;
+	float updateTimeBetweenShots = 0.f;
 
 	//Animation Properties
 	//std::string HUDSprite;

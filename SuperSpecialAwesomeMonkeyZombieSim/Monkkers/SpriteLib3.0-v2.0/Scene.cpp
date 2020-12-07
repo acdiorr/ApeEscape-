@@ -144,6 +144,7 @@ void Scene::CreateCameraEntity(bool mainCamera, float windowWidth, float windowH
 		}
 	}
 }
+
 void Scene::CreateBoxEntity(std::string fileName, int spriteX, int spriteY, int vecX, int vecY, int rotDeg, bool square, int vecZ, bool isDynamic, float shrinkXValue, float shrinkYValue)
 {
 	//Creates entity

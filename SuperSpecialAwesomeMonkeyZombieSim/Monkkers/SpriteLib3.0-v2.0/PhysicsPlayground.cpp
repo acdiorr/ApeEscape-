@@ -48,9 +48,127 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<HorizontalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 	}
+	
+	
+	//Setup the gun hud
+	{
+		//Creates entity 
+		
+		auto entity = ECS::CreateEntity();
+		auto& Cam = ECS::GetComponent<Camera>(MainEntities::MainCamera());
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<WeaponHud>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+
+		//Sets up the components
+		std::string fileName = "spritesheets/AllGuns_GUI.png";
+		std::string animations = "GunsGUI.json";
+
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(Cam.GetPosition().x, Cam.GetPosition().y, 5.f));
+
+		ECS::GetComponent<WeaponHud>(entity).InitWeaponHud(fileName, animations, 75, 75, &ECS::GetComponent<Sprite>(entity), &ECS::GetComponent<AnimationController>(entity),
+			&ECS::GetComponent<Transform>(entity));
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		wHud = entity;
+	}
+
+
+	//Setup the Stage for the map
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components 
+		std::string fileName = "Stage.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 220, 100);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-54.f, 827.f, 1.f));
+	}
+	
+
+	//Setup the Kitchen tiling for the map
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components 
+		std::string fileName = "KitchenTiling.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 90);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(90.f, 16.f, 0.f));
+	}
+
+
+	//Setup the lobby tiling for the map
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components 
+		std::string fileName = "LobbyTiling.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 200, 291);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-57.f, 112.f, 0.f));
+	}
+
+	//Setup the hallway tiling for the map
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components 
+		std::string fileName = "HallwayTiling.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 80, 412);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-54.f, 250.f, 0.f));
+	}
+
+	//Setup the theatre tiling for the map
+	{
+		//Creates entity 
+		auto entity = ECS::CreateEntity();
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components 
+		std::string fileName = "TheatreTiling.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 562, 462);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-54.f, 670.f, 0.f));
+	}
 
 	// Setup Map (Breaking it off into sections, naming each wall accordingly)
 	{
+
+		// Setup Crates on the Stage 
+
+		// Left Crate 
+		CreateBoxEntity("Crate.png", 40, 20, -114.f, 810.f, 45.f, true, 2.f);
+		// Middle Crate
+		CreateBoxEntity("Crate.png", 40, 20, -54.f, 860.f, 0.f, true, 2.f);
+		// Right Crate 
+		CreateBoxEntity("Crate.png", 40, 20, 4.f, 810.f, 0.f, true, 2.f);
+
 		//Setup Lobby
 
 		// Bottom Wall
@@ -82,6 +200,16 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		CreateBoxEntity("l.png", 100, 10, 190.f, -10.f);
 		//End of barrier hallway
 		CreateBoxEntity("1.png", 10, 60, 235.f, 15.f);
+
+		// Setup Zombie trap in Lobby 
+		
+		// Left Wall 
+		CreateBoxEntity("l.png", 10, 122, -100.f, 103.f);
+		// Top Wall
+		CreateBoxEntity("l.png", 110, 10, -50.f, 168.f);
+		// Right Wall
+		CreateBoxEntity("l.png", 10, 122, 0.f, 103.f);
+
 
 		// Setup Theatre (+ hallway)
 
@@ -219,6 +347,12 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(5.f - shrinkX), float(40.f - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
+	
+	//Spawn Zongie
+	{
+		spawnZombie(-30.f, 300.f);
+	}
+	
 	//Player entity
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
@@ -267,6 +401,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetGravityScale(1.f);
 	}
 
+	ECS::GetComponent<WeaponHud>(wHud).AttachTransform(&ECS::GetComponent<Transform>(wHud));
+	ECS::GetComponent<WeaponHud>(wHud).AttachAnimation(&ECS::GetComponent<AnimationController>(wHud));
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
@@ -286,6 +422,13 @@ void PhysicsPlayground::Update()
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<Weapon>(MainEntities::MainPlayer()).weaponUpdate();
+	ECS::GetComponent<WeaponHud>(wHud).update(ECS::GetComponent<Weapon>(MainEntities::MainPlayer()).getName());
+	
+	//ECS::GetComponent<WeaponHud>(
+	for (int x = 0; x < this->zombieEnts.size(); x++) {
+		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).zombieUpdate(ECS::GetComponent<PhysicsBody>(this->zombieEnts.at(x)), &this->zombieEnts, this->zombieEnts.at(x));
+		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).AttachAnimation(&ECS::GetComponent<AnimationController>(zombieEnts[x]));
+	}
 }
 
 void PhysicsPlayground::GUI()
@@ -627,4 +770,46 @@ void PhysicsPlayground::KeyboardUp()
 {
 
 
+}
+
+void PhysicsPlayground::spawnZombie(float posX, float posY)
+{
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+	ECS::AttachComponent<Zombie>(entity);
+	ECS::AttachComponent<AnimationController>(entity);
+
+	//Sets up the components
+	std::string fileName = "spritesheets/ZombieSprite.png";
+	std::string animations = "ZombieAnimations.json";
+
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(posX, posY, 2.f));
+	ECS::GetComponent<Zombie>(entity).InitZombie(fileName, animations, 20, 20, &ECS::GetComponent<Sprite>(entity), &ECS::GetComponent<AnimationController>(entity),
+		&ECS::GetComponent<Transform>(entity), &ECS::GetComponent<PhysicsBody>(entity));
+	
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_dynamicBody;
+	tempDef.position.Set(float32(posX), float32(posY));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 0.f), false, ENEMY, PLAYER | OBJECTS | PICKUP | GROUND | TRIGGER, 0.5f, 3.f);
+
+	tempPhsBody.SetRotationAngleDeg(0.f);
+	tempPhsBody.SetFixedRotation(true);
+	tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+	tempPhsBody.SetGravityScale(1.f);
+
+	this->zombieEnts.push_back(entity);
 }
