@@ -162,39 +162,39 @@ void Player::updateVignettePos() {
 void Player::updateVignette(int health) {
 	switch (health) {
 	case 5:
-		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(0);
-		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(0);
-		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(0);
-		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0);
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0.f);
 
 		break;
 	case 4:
 
-		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(100);
-		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(0);
-		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(0);
-		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0);
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0.f);
 
 		break;
 	case 3:
-		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(100);
-		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(100);
-		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(0);
-		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0);
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0.f);
 
 		break;
 	case 2:
-		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(100);
-		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(100);
-		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(100);
-		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0);
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0.f);
 
 		break;
 	case 1:
-		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(100);
-		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(100);
-		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(100);
-		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(100);
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(1.f);
 
 		break;
 	}
