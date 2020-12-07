@@ -39,6 +39,10 @@ protected:
 	PhysicsPlaygroundListener listener;
 	unsigned endTriggerEntity;
 	unsigned endTrigEntity;
+	unsigned endTrigEntity2;
+	unsigned returnBarEntity2;
+	unsigned endTrigEntity3;
+	unsigned returnBarEntity3;
 	unsigned returnBarEntity;
 
 	void spawnZombie(float posX, float posY);

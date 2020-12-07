@@ -24,8 +24,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	float aspectRatio = windowWidth / windowHeight;
 
 
-
-
 	//Setup MainCamera Entity
 	{
 		/*Scene::CreateCamera(m_sceneReg, vec4(-75.f, 75.f, -75.f, 75.f), -100.f, 100.f, windowWidth, windowHeight, true, true);*/
@@ -234,6 +232,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	vigH->SetOpacity(0.0f);
 
 
+	//Spawn Zongie
+	{
+		spawnZombie(-30.f, 300.f);
+	}
+	
 	//end trigger for barriers
 	endTriggerEntity = CreateEndTrigger(false, "barrierimage.png", 10, 10, 30.f, -20.f, 80.f, 460.f, 317.f);
 	// #1 Lobby Barrier
@@ -266,6 +269,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, OBJECTS, ENVIRONMENT | PLAYER | ENEMY);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	}
+
 	//Setup inside trigger for moving lobby barrier #1 Away
 	{
 		//Creates entity
@@ -340,7 +344,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(5.f - shrinkX), float(40.f - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-	
+
 	// #1 Left Theatre Barrier
 	{
 		//Creates entity
@@ -376,7 +380,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-		endTrigEntity = entity;
+		endTrigEntity2 = entity;
 
 		//Add components
 		ECS::AttachComponent<Transform>(entity);
@@ -413,7 +417,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-		returnBarEntity = entity;
+		returnBarEntity2 = entity;
 
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
@@ -482,7 +486,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-		endTrigEntity = entity;
+		endTrigEntity3 = entity;
 
 		//Add components
 		ECS::AttachComponent<Transform>(entity);
@@ -519,7 +523,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-		returnBarEntity = entity;
+		returnBarEntity3 = entity;
 
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
@@ -553,12 +557,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
 
-
-	//Spawn Zongie
-	{
-		spawnZombie(-30.f, 300.f);
-	}
-	
 	//Player entity
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
@@ -592,7 +590,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(200.f), float32(840.f));
+		tempDef.position.Set(float32(0.f), float32(0.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -606,15 +604,22 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(1.f);
 	}
-
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
+
+
 }
 
 void PhysicsPlayground::Update()
 {
+	// Calls Timers for triggers
 	((EndTrigger*)(ECS::GetComponent<Trigger*>(endTrigEntity)))->OnUpdate();
 	((AdjustBarrierHealthTrigger*)(ECS::GetComponent<Trigger*>(returnBarEntity)))->OnUpdate();
+	((EndTrigger*)(ECS::GetComponent<Trigger*>(endTrigEntity2)))->OnUpdate();
+	((AdjustBarrierHealthTrigger*)(ECS::GetComponent<Trigger*>(returnBarEntity2)))->OnUpdate();
+	((EndTrigger*)(ECS::GetComponent<Trigger*>(endTrigEntity3)))->OnUpdate();
+	((AdjustBarrierHealthTrigger*)(ECS::GetComponent<Trigger*>(returnBarEntity3)))->OnUpdate();
+
 	auto& player = ECS::GetComponent<Player>(MainEntities::MainPlayer());
 
 	player.Update();
