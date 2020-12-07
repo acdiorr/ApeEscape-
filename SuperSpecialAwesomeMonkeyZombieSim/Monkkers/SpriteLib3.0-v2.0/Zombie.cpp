@@ -74,7 +74,7 @@ void Zombie::dealDamage(float damageAmount)
     this->health -= damageAmount;
 }
 
-void Zombie::zombieUpdate(PhysicsBody ZombiePhysicsBody, std::vector <unsigned int>* zEnts, int Zentity)
+void Zombie::zombieUpdate(PhysicsBody *ZombiePhysicsBody, std::vector <unsigned int>* zEnts, int Zentity)
 {
     //std::cout << health << std::endl;
     
@@ -91,14 +91,14 @@ void Zombie::zombieUpdate(PhysicsBody ZombiePhysicsBody, std::vector <unsigned i
         //Rotating Zombie in the correct direction
         {
             //Get Vector from the Zombie to the player
-            ZtoP = vec2(ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().x - ZombiePhysicsBody.GetPosition().x, ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().y - ZombiePhysicsBody.GetPosition().y);
+            ZtoP = vec2(ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().x - ZombiePhysicsBody->GetPosition().x, ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().y - ZombiePhysicsBody->GetPosition().y);
             //Angle from the Zombie to the Player
             double ZtoPangle = atan2(ZtoP.x, ZtoP.y) * 57.29577951308;
-            ZombiePhysicsBody.SetRotationAngleDeg(-ZtoPangle);
+            ZombiePhysicsBody->SetRotationAngleDeg(-ZtoPangle);
         }
         //Move in the direction the zombie is facing
         {
-            float angle = ZombiePhysicsBody.GetRotationAngleDeg();
+            float angle = ZombiePhysicsBody->GetRotationAngleDeg();
             movement = vec3(movementSpeed * sin(-angle* 0.01745329f), movementSpeed * cos(-angle * 0.01745329f), 0);
             m_physBody->SetVelocity(movement);
             if (m_physBody->GetBody()->GetLinearVelocity() == b2Vec2(0.f, 0.f))
@@ -113,7 +113,7 @@ void Zombie::zombieUpdate(PhysicsBody ZombiePhysicsBody, std::vector <unsigned i
         }
         //Attack Player if within range
         {
-            ZtoP = vec2(ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().x - ZombiePhysicsBody.GetPosition().x, ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().y - ZombiePhysicsBody.GetPosition().y);
+            ZtoP = vec2(ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().x - ZombiePhysicsBody->GetPosition().x, ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetPosition().y - ZombiePhysicsBody->GetPosition().y);
             float distance = sqrt(ZtoP.x * ZtoP.x + ZtoP.y * ZtoP.y);
             //Check if player is in attack range
             if (distance < this->zombieAttackRange) {
