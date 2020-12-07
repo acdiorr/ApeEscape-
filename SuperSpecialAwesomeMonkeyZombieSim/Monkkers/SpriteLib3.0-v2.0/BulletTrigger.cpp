@@ -26,12 +26,15 @@ void BulletTrigger::OnEnter(int entity)
 		}
 	}
 
-	if (ECS::GetComponent<PhysicsBody>(m_triggerEntity).getEntityCategoryType() == ENEMY) {
+	if (ECS::GetComponent<PhysicsBody>(entity).getEntityCategoryType() == ENEMY) {
+		std::cout << "Enemy Shot" << std::endl;
+		//std::cout << damage << std::endl;
 		this->penetration -= 1.f;
+		//std::cout << penetration << std::endl;
 		ECS::GetComponent<Zombie>(entity).dealDamage(this->damage); // Send him to Brazil
-		ECS::GetComponent<Player>(entity).addPoints(10);
+		ECS::GetComponent<Player>(MainEntities::MainPlayer()).addPoints(10);
 
-		if (penetration < 0) {
+		if (penetration <= 0) {
 			if (!beingDeleted) {
 				beingDeleted = true;
 				PhysicsBody::m_bodiesToDelete.push_back(m_triggerEntity);

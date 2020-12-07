@@ -413,7 +413,6 @@ void PhysicsPlayground::Update()
 	((AdjustBarrierHealthTrigger*)(ECS::GetComponent<Trigger*>(returnBarEntity)))->OnUpdate();
 	auto& player = ECS::GetComponent<Player>(MainEntities::MainPlayer());
 
-	player.Update();
 	if (m_lerpEnabled)
 	{
 		m_tVal += Timer::deltaTime;
@@ -423,12 +422,15 @@ void PhysicsPlayground::Update()
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<Weapon>(MainEntities::MainPlayer()).weaponUpdate();
 	ECS::GetComponent<WeaponHud>(wHud).update(ECS::GetComponent<Weapon>(MainEntities::MainPlayer()).getName());
-	
-	//ECS::GetComponent<WeaponHud>(
+
 	for (int x = 0; x < this->zombieEnts.size(); x++) {
-		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).zombieUpdate(ECS::GetComponent<PhysicsBody>(this->zombieEnts.at(x)), &this->zombieEnts, this->zombieEnts.at(x));
 		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).AttachAnimation(&ECS::GetComponent<AnimationController>(zombieEnts[x]));
+		ECS::GetComponent<Zombie>(this->zombieEnts.at(x)).zombieUpdate(&ECS::GetComponent<PhysicsBody>(this->zombieEnts.at(x)), &this->zombieEnts, this->zombieEnts.at(x));
 	}
+	player.Update();
+	ECS::GetComponent<Player>(MainEntities::MainPlayer()).AttachBody(&ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()));
+	ECS::GetComponent<Player>(MainEntities::MainPlayer()).AttachAnimation(&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()));
+
 }
 
 void PhysicsPlayground::GUI()
@@ -790,7 +792,7 @@ void PhysicsPlayground::spawnZombie(float posX, float posY)
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(posX, posY, 2.f));
 	ECS::GetComponent<Zombie>(entity).InitZombie(fileName, animations, 20, 20, &ECS::GetComponent<Sprite>(entity), &ECS::GetComponent<AnimationController>(entity),
 		&ECS::GetComponent<Transform>(entity), &ECS::GetComponent<PhysicsBody>(entity));
-	
+
 	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
@@ -804,7 +806,7 @@ void PhysicsPlayground::spawnZombie(float posX, float posY)
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-	tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 0.f), false, ENEMY, PLAYER | OBJECTS | PICKUP | GROUND | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 0.f), false, ENEMY, PLAYER | OBJECTS | PICKUP | GROUND | TRIGGER | ENEMY, 0.5f, 3.f);
 
 	tempPhsBody.SetRotationAngleDeg(0.f);
 	tempPhsBody.SetFixedRotation(true);

@@ -44,8 +44,9 @@ protected:
 	unsigned returnBarEntity;
 
 	void spawnZombie(float posX, float posY);
-	std::vector <unsigned int> zombieEnts;
+	std::vector <unsigned int> zombieEnts = {};
 	void killZombie(int entity);
+
 
 	int player = 0;
 	int wall = 1;
