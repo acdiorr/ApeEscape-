@@ -44,6 +44,97 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	//Set Default Animation
 	m_animController->SetActiveAnim(0);
 
+	//Blood1
+	{
+		auto& Cam = ECS::GetComponent<Camera>(MainEntities::MainCamera());
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Sets up components
+		std::string fileName = "bloodTwo.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 320, 170);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(Cam.GetPosition().x, Cam.GetPosition().y, 6.f));
+
+		bloodOne = entity;
+
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(0);
+
+
+	}
+
+	//Blood2
+	{
+		auto& Cam = ECS::GetComponent<Camera>(MainEntities::MainCamera());
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Sets up components
+		std::string fileName = "bloodOne.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 320, 170);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(Cam.GetPosition().x, Cam.GetPosition().y, 7.f));
+
+		bloodTwo = entity;
+
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(0);
+
+
+	}
+
+	//Blood3
+	{
+		auto& Cam = ECS::GetComponent<Camera>(MainEntities::MainCamera());
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Sets up components
+		std::string fileName = "bloodThree.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 320, 170);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(Cam.GetPosition().x, Cam.GetPosition().y, 8.f));
+
+		bloodThree = entity;
+
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(0);
+
+
+	}
+	//Blood4
+	{
+		auto& Cam = ECS::GetComponent<Camera>(MainEntities::MainCamera());
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Sets up components
+		std::string fileName = "bloodFour.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 320, 170);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(Cam.GetPosition().x, Cam.GetPosition().y, 9.f));
+
+		bloodFour = entity;
+
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0);
+
+
+	}
+
 
 }
 
@@ -55,35 +146,56 @@ void Player::Update()
 	}
 
 	AnimationUpdate();
+	updateVignettePos();
+}
+
+void Player::updateVignettePos() {
+	auto& Cam = ECS::GetComponent<Camera>(MainEntities::MainCamera());
+
+	ECS::GetComponent<Transform>(bloodOne).SetPosition(vec3(Cam.GetPosition().x, Cam.GetPosition().y, 6.f));
+	ECS::GetComponent<Transform>(bloodTwo).SetPosition(vec3(Cam.GetPosition().x, Cam.GetPosition().y, 7.f));
+	ECS::GetComponent<Transform>(bloodThree).SetPosition(vec3(Cam.GetPosition().x, Cam.GetPosition().y, 8.f));
+	ECS::GetComponent<Transform>(bloodFour).SetPosition(vec3(Cam.GetPosition().x, Cam.GetPosition().y, 9.f));
+
 }
 
 void Player::updateVignette(int health) {
-	VignetteEffect* vigH = (VignetteEffect*)EffectManager::GetEffect(EffectManager::GetVignetteHandle());
 	switch (health) {
 	case 5:
-		vigH->SetInnerRadius(0.0f);
-		vigH->SetOuterRadius(0.5f);
-		vigH->SetOpacity(0.0f);
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0.f);
+
 		break;
 	case 4:
-		vigH->SetInnerRadius(0.0f);
-		vigH->SetOuterRadius(0.5f);
-		vigH->SetOpacity(0.25f);
+
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0.f);
+
 		break;
 	case 3:
-		vigH->SetInnerRadius(0.0f);
-		vigH->SetOuterRadius(0.5f);
-		vigH->SetOpacity(0.50f);
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(0.f);
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0.f);
+
 		break;
 	case 2:
-		vigH->SetInnerRadius(0.0f);
-		vigH->SetOuterRadius(0.5f);
-		vigH->SetOpacity(0.75f);
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(0.f);
+
 		break;
 	case 1:
-		vigH->SetInnerRadius(0.0f);
-		vigH->SetOuterRadius(0.5f);
-		vigH->SetOpacity(1.0f);
+		ECS::GetComponent<Sprite>(bloodOne).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodTwo).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodThree).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(bloodFour).SetTransparency(1.f);
+
 		break;
 	}
 }

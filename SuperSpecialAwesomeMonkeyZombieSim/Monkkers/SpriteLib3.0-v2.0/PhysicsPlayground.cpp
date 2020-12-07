@@ -109,13 +109,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		CreateBoxEntity("l.png", 566, 10, -53.f, 882.f);
 	}
 	
-	//Health Vignette
-	EffectManager::CreateEffect(Vignette, BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
-	VignetteEffect* vigH = (VignetteEffect*)EffectManager::GetEffect(EffectManager::GetVignetteHandle());
-
-	vigH->SetInnerRadius(0.0f);
-	vigH->SetOuterRadius(0.5f);
-	vigH->SetOpacity(0.0f);
+	
 
 
 	//end trigger for barriers
@@ -525,6 +519,8 @@ void PhysicsPlayground::GUIWindowTwo()
 
 	ImGui::End();
 }
+
+
 
 void PhysicsPlayground::KeyboardHold()
 {
