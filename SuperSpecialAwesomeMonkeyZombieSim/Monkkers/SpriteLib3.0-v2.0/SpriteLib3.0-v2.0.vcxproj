@@ -200,6 +200,7 @@
     <ClInclude Include="VerticalScroll.h" />
     <ClInclude Include="VignetteEffect.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponHud.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Xinput.h" />
     <ClInclude Include="Zombie.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="VerticalScroll.cpp" />
     <ClCompile Include="VignetteEffect.cpp" />
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponHud.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="XInput.cpp" />
     <ClCompile Include="Zombie.cpp" />

@@ -23,6 +23,7 @@ private:
 	float zombieTurningSpeed = 45.f;
 	float attackCooldown = 2.f; // How long zongies gotta wait to begin attacking/moving
 	float timeSinceLastAttack = 0;
+	//int m_weapon = 0;
 
 	void SetActiveAnimation(int anim);
 
