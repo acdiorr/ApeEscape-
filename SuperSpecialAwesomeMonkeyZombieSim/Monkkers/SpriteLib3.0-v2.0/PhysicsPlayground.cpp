@@ -351,6 +351,12 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Spawn Zongie
 	{
 		spawnZombie(-30.f, 300.f);
+		spawnZombie(-30.f, 320.f);
+		spawnZombie(-30.f, 350.f);
+		spawnZombie(-30.f, 380.f);
+		spawnZombie(-30.f, 400.f);
+		spawnZombie(-10.f, 380.f);
+		
 	}
 	
 	//Player entity
